@@ -20,6 +20,10 @@ setTimeout(() => {
   textContent('coin', Status.coin)
 }, 400)
 
+document.getElementById('quest').addEventListener('click', () => {
+  window.location.href = 'quest.html'
+})
+
 /**
  * @param {string} id HTMLのID
  * @param {string} message 変換したい文字列を指定
