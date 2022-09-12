@@ -85,7 +85,7 @@ function stageview(stageid, stageNumber) {
   button.style = 'margin-bottom: 5px;'
   button.innerHTML = `${stageName} ${stageid}-1`
   button.onclick = function () {
-    battle(stageid, 1)
+    window.location.href = `./battle.html?stage=${stageid}&stageid=1`
   }
   // document.getElementById('stage').append(br)
   document.getElementById('stage').prepend(button)
@@ -98,7 +98,7 @@ function stageview(stageid, stageNumber) {
     button.style = 'margin-bottom: 5px;'
     button.innerHTML = `${stageName} ${stageid}-${i}`
     button.onclick = function () {
-      battle(stageid, i - 1)
+      window.location.href = `./battle.html?stage=${stageid}&stageid=${i - 1}`
     }
     document.getElementById('stage').prepend(button)
   }
