@@ -1,0 +1,214 @@
+/**
+ * ステータスが入る変数です
+ * @type {{level: レベル,exp: 経験値,totalExp: 累計経験値,hp: 体力,atk: 攻撃力,def: 防御力,spd: スピード,point:ステータスポイント,coin:コイン,}}
+ */
+var Status
+
+/**
+ * ゲームフラグが管理されている変数です
+ * @type {{stage: 最大クリア親ステージ,stageClear: [最大クリアステージ],}}
+ */
+var flag
+
+var url = new URL(window.location.href)
+var stage = url.searchParams.get('stage')
+var stageid = url.searchParams.get('stageid')
+
+import { stagedata, item } from '../asset/data.js'
+
+/**
+ * 待機 ※await必須
+ * @param {待つ時間} waitTime
+ * @returns
+ */
+const sleep = (waitTime) => new Promise((resolve) => setTimeout(resolve, waitTime))
+
+/**
+ * ゲームデータの同期
+ */
+async function sync() {
+  chrome.storage.local.get([`gamestatus`], function (response) {
+    Status = JSON.parse(response.gamestatus)
+  })
+  chrome.storage.local.get(['flag'], function (response) {
+    flag = JSON.parse(response.flag)
+  })
+  await sleep(1000)
+}
+
+battle()
+
+async function battle() {
+  await sync()
+  var Enemydata = stagedata.data[stage - 1].info[stageid]
+  console.log(Status)
+  innerHTML(
+    'screen',
+    `<h2>敵の情報</h2><h3>${Enemydata.EnemyName}</h3><div class="box"><div class="statusbox" style="display: flex;justify-content: center;"><p>HP:${Enemydata.EnemyHp}</p><p>Atk:${Enemydata.EnemyAtk}</p></div><div class="statusbox" style="display: flex;justify-content: center;"><p>Def:${Enemydata.EnemyDef}</p><p>Spd:${Enemydata.EnemySpd}</p></div></div><h2>自分の情報</h2><div class="box"><div class="statusbox" style="display: flex;justify-content: center;"><p>HP:${Status.hp}</p><p>ATK:${Status.atk}</p></div><div class="statusbox" style="display: flex;justify-content: center;"><p>DEF:${Status.def}</p><p>SPD:${Status.spd}</p></div></div></div><button id="start">バトルを開始する</button><hr><button id="backquest">クエストページに戻る</button>`,
+  )
+  document.getElementById('mainpage').style.display = 'none'
+  document.getElementById('hr').style.display = 'none'
+  document.getElementById('br').style.display = 'none'
+  document.getElementById('backquest').addEventListener('click', () => {
+    main()
+  })
+  document.getElementById('start').addEventListener('click', () => {
+    BattleStart(stagename, stageid)
+  })
+}
+
+async function BattleStart(stagename, stageid) {
+  var Enemydata = stagdata.data[stage - 1].info[stageid]
+  var nowenemyHp = Enemydata.EnemyHp
+  var nowplayerHp = Status.hp
+  var log = ''
+  var atk
+  var leftexp
+  var nowexp
+  var levelUp = ''
+  var stageMessage = ''
+  pageload(nowenemyHp, nowplayerHp, log, stage, stageid)
+  //敵のHPが無くなるまでループする
+  while (nowenemyHp > 0) {
+    if (nowenemyHp < 0) {
+      nowenemyHp = 0
+    } else if (nowplayerHp < 0) {
+      nowplayerHp = 0
+    }
+    if (nowplayerHp <= 0) {
+      break
+    }
+    await sleep(500)
+    //攻撃判定
+    var random = Math.floor(Math.random() * (2 + 1 - 1)) + 1
+    if (random == 2) {
+      atk = Math.ceil(Status.atk / (1 + Enemydata.EnemyDef / 100))
+      nowenemyHp -= atk
+      log += `\n${Enemydata.EnemyName}に${atk}ダメージを与えた！`
+    } else if (random == 1) {
+      atk = Math.ceil(Enemydata.EnemyAtk / (1 + Status.def / 100))
+      nowplayerHp -= atk
+      log += `\n${Enemydata.EnemyName}から${atk}ダメージを受けた！`
+    }
+    //オーバーフロー対処処理
+    if (nowenemyHp < 0) {
+      nowenemyHp = 0
+    } else if (nowplayerHp < 0) {
+      nowplayerHp = 0
+    }
+    //ページ更新
+    pageload(nowenemyHp, nowplayerHp, log, stage, stageid)
+  }
+  //戦闘勝利処理
+  if (nowenemyHp == 0) {
+    log += `\n戦闘に勝利した！`
+    pageload(nowenemyHp, nowplayerHp, log, stage, stageid)
+    await sleep(2000)
+    var ExpRandom = Math.floor(Math.random() * (Enemydata.ExpMax + 1 - Enemydata.ExpMin)) + Enemydata.ExpMin
+    //経験値付与
+    Status.exp += ExpRandom
+    Status.totalExp += ExpRandom
+    var CoinRandom = Math.floor(Math.random() * (Enemydata.CoinMax + 1 - Enemydata.CoinMin) + Enemydata.CoinMin)
+    //Coin付与
+    Status.coin += CoinRandom
+    //レベルアップ処理
+    if (levelTable.level[Status.level - 1] <= Status.exp) {
+      Status.exp -= levelTable.level[Status.level - 1]
+      Status.level++
+      Status.point++
+      setstatus = JSON.stringify(Status)
+      chrome.storage.local.set({
+        gamestatus: setstatus,
+      })
+      levelUp = `レベルUp!! ${Status.level - 1}→${Status.level}`
+    }
+    //ステージ追加処理
+
+    //初クリアの場合のみ実行
+    if (stage == flag.stage && stageid == flag.stageClear[stage - 1]) {
+      //クリアステージがオーバーフローしないため
+      if (flag.stageClear[stage - 1] == 10) {
+        //もしするなら親ステージを解放する
+        flag.stage++
+        stageMessage = `新しいステージ<br>「${stagedata.data[stage].StageName}」<br>が解放されました！`
+      } else {
+        //しないなら子ステージを解放する
+        flag.stageClear[stage - 1]++
+        stageMessage = `新しいステージ<br>「${
+          stagedata.data[stage - 1].StageName
+        } ${stage}-${(stageid += 1)}」<br>が解放されました！`
+      }
+    }
+    nowexp = Status.exp
+    leftexp = levelTable.level[Status.level - 1] - nowexp
+    var setstatus = JSON.stringify(Status)
+    var flags = JSON.stringify(flag)
+    //出力
+    innerHTML(
+      'screen',
+      `<h1>勝利！</h1><h2>${stageMessage}</h2><h2>${levelUp}</h2><h2>Exp:${ExpRandom}</h2><h2>Coin:${CoinRandom}</h2><h2>次のレベルまであと${leftexp}exp</h2><hr><button id="backquest">クエストページに戻る</button>`,
+    )
+    //保存
+    chrome.storage.local.set({
+      flag: flags,
+    })
+    chrome.storage.local.set({
+      gamestatus: setstatus,
+    })
+    document.getElementById('mainpage').style.display = 'inline-block'
+    document.getElementById('br').style.display = 'block'
+    //敗北処理
+  } else if (nowplayerHp == 0) {
+    log += `\n戦闘に負けてしまった...`
+    //画面出力
+    pageload(nowenemyHp, nowplayerHp, log, stage, stageid)
+    await sleep(2000)
+    innerHTML(
+      'screen',
+      `<h1>敗北...</h1><button id="retry">再挑戦</button><hr><button id="backquest">クエストページに戻る</button>`,
+    )
+    document.getElementById('mainpage').style.display = 'inline-block'
+    document.getElementById('br').style.display = 'block'
+  }
+  document.getElementById('backquest').addEventListener('click', () => {
+    return main()
+  })
+  document.getElementById('retry').addEventListener('click', () => {
+    return BattleStart(stagename, stageid)
+  })
+}
+
+/**
+ * @param {string} id HTMLのID
+ * @param {string} message 変換したいHTMLを指定
+ */
+function innerHTML(id, message) {
+  document.getElementById(id).innerHTML = `${message}`
+}
+
+/**
+ * 画面を更新する関数
+ * @param {今の敵のHP} nowenemyHp
+ * @param {今の自分のHP} nowplayerHp
+ * @param {log} log
+ */
+function pageload(nowenemyHp, nowplayerHp, log, stage, stageid) {
+  var Enemydata = stagedata.data[stage - 1].info[stageid]
+  innerHTML(
+    'screen',
+    `<h1>${
+      stagedata.data[stage - 1].StageName
+    } ${stage}-${stageid}</h1><h2>敵の状態</h2><h3 style="margin-bottom: 0px;">${
+      Enemydata.EnemyName
+    }</h3><h4>HP</h4><h5 style="margin:0px 0px">${nowenemyHp}/${
+      Enemydata.EnemyHp
+    }</h5><progress style="height: 20px;" value="${nowenemyHp}" max="${
+      Enemydata.EnemyHp
+    }">HP</progress><hr><h2>自分の情報</h2><h4>HP</h4><h5 style="margin:0px 0px">${nowplayerHp}/${
+      Status.hp
+    }</h5><progress style="height: 20px;" value="${nowplayerHp}" max="${
+      Status.hp
+    }">HP</progress><hr><h4>バトルログ</h4><textarea id="log" rows="4" cols="40" style="overflow:hidden;resize: none;" disabled>${log}</textarea>`,
+  )
+  document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight
+}
