@@ -53,12 +53,12 @@ async function battle() {
     main()
   })
   document.getElementById('start').addEventListener('click', () => {
-    BattleStart(stagename, stageid)
+    BattleStart(stage, stageid)
   })
 }
 
 async function BattleStart(stagename, stageid) {
-  var Enemydata = stagdata.data[stage - 1].info[stageid]
+  var Enemydata = stagedata.data[stage - 1].info[stageid]
   var nowenemyHp = Enemydata.EnemyHp
   var nowplayerHp = Status.hp
   var log = ''
