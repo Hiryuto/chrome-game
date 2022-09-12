@@ -13,7 +13,7 @@ var flag
 /**
  * ステージ情報
  */
-import { stage, item } from '../asset/data.js'
+import { stagedata, item } from '../asset/data.js'
 
 /**
  * ゲームデータの同期

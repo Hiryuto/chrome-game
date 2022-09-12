@@ -1,4 +1,4 @@
-export const stage = {
+export const stagedata = {
   StageTotal: 2,
   data: [
     {

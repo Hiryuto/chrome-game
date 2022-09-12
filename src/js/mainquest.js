@@ -13,7 +13,7 @@ var flag
 /**
  * ステージ情報
  */
-import { stage, item } from '../asset/data.js'
+import { stagedata, item } from '../asset/data.js'
 async function sync() {
   chrome.storage.local.get([`gamestatus`], function (response) {
     Status = JSON.parse(response.gamestatus)
@@ -38,8 +38,8 @@ async function main_quest() {
     var id = i - 1
     var button = document.createElement('button')
     button.style = 'margin-bottom: 5px;'
-    button.innerHTML = `${stage.data[id].StageName}`
-    button.id = stage.data[id].StageId
+    button.innerHTML = `${stagedata.data[id].StageName}`
+    button.id = stagedata.data[id].StageId
     button.onclick = function () {
       stageload(i - 1)
     }
@@ -65,8 +65,8 @@ async function stageload(stageid) {
 
 function stageview(stageid, stageNumber) {
   var stageiD = stageid - 1
-  var stageID = stage.data[stageiD].StageId
-  var stageName = stage.data[stageiD].StageName
+  var stageID = stagedata.data[stageiD].StageId
+  var stageName = stagedata.data[stageiD].StageName
   stageNumber += 1
   const screen = document.getElementById('screen')
 
