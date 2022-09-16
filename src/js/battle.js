@@ -14,7 +14,7 @@ var url = new URL(window.location.href)
 var stage = url.searchParams.get('stage')
 var stageid = url.searchParams.get('stageid')
 
-import { stagedata, item } from '../asset/data.js'
+import { stagedata, item, levelTable } from '../asset/data.js'
 
 /**
  * 待機 ※await必須
@@ -50,7 +50,7 @@ async function battle() {
   document.getElementById('hr').style.display = 'none'
   document.getElementById('br').style.display = 'none'
   document.getElementById('backquest').addEventListener('click', () => {
-    main()
+    window.location.href = 'quest.html'
   })
   document.getElementById('start').addEventListener('click', () => {
     BattleStart(stage, stageid)
@@ -171,7 +171,7 @@ async function BattleStart(stagename, stageid) {
     document.getElementById('br').style.display = 'block'
   }
   document.getElementById('backquest').addEventListener('click', () => {
-    return main()
+    return (window.location.href = 'mainquest.html')
   })
   document.getElementById('retry').addEventListener('click', () => {
     return BattleStart(stagename, stageid)
@@ -212,3 +212,6 @@ function pageload(nowenemyHp, nowplayerHp, log, stage, stageid) {
   )
   document.getElementById('log').scrollTop = document.getElementById('log').scrollHeight
 }
+document.getElementById('mainpage').addEventListener('click', () => {
+  return (window.location.href = 'index.html')
+})
