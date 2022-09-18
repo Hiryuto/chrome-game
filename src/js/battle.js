@@ -11,8 +11,8 @@ var Status
 var flag
 
 var url = new URL(window.location.href)
-var stage = url.searchParams.get('stage')
-var stageid = url.searchParams.get('stageid')
+var stage = Number(url.searchParams.get('stage'))
+var stageid = Number(url.searchParams.get('stageid'))
 
 import { stagedata, item, levelTable } from '../asset/data.js'
 
@@ -33,7 +33,7 @@ async function sync() {
   chrome.storage.local.get(['flag'], function (response) {
     flag = JSON.parse(response.flag)
   })
-  await sleep(1000)
+  await sleep(100)
 }
 
 battle()
@@ -41,7 +41,6 @@ battle()
 async function battle() {
   await sync()
   var Enemydata = stagedata.data[stage - 1].info[stageid]
-  console.log(Status)
   innerHTML(
     'screen',
     `<h2>敵の情報</h2><h3>${Enemydata.EnemyName}</h3><div class="box"><div class="statusbox" style="display: flex;justify-content: center;"><p>HP:${Enemydata.EnemyHp}</p><p>Atk:${Enemydata.EnemyAtk}</p></div><div class="statusbox" style="display: flex;justify-content: center;"><p>Def:${Enemydata.EnemyDef}</p><p>Spd:${Enemydata.EnemySpd}</p></div></div><h2>自分の情報</h2><div class="box"><div class="statusbox" style="display: flex;justify-content: center;"><p>HP:${Status.hp}</p><p>ATK:${Status.atk}</p></div><div class="statusbox" style="display: flex;justify-content: center;"><p>DEF:${Status.def}</p><p>SPD:${Status.spd}</p></div></div></div><button id="start">バトルを開始する</button><hr><button id="backquest">クエストページに戻る</button>`,
@@ -61,6 +60,7 @@ async function BattleStart(stagename, stageid) {
   var Enemydata = stagedata.data[stage - 1].info[stageid]
   var nowenemyHp = Enemydata.EnemyHp
   var nowplayerHp = Status.hp
+  var next_stage = stageid + 1
   var log = ''
   var atk
   var leftexp
@@ -136,7 +136,7 @@ async function BattleStart(stagename, stageid) {
         flag.stageClear[stage - 1]++
         stageMessage = `新しいステージ<br>「${
           stagedata.data[stage - 1].StageName
-        } ${stage}-${(stageid += 1)}」<br>が解放されました！`
+        } ${stage}-${next_stage}」<br>が解放されました！`
       }
     }
     nowexp = Status.exp
