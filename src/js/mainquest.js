@@ -43,9 +43,9 @@ async function main_quest() {
     button.onclick = function () {
       stageload(i - 1)
     }
-    document.getElementById('screen').prepend(button)
     var br = document.createElement('br')
-    //document.getElementById('screen').prepend(br)
+    document.getElementById('screen').prepend(br)
+    document.getElementById('screen').prepend(button)
   }
   var h2 = document.createElement('h2')
   h2.innerHTML = 'ステージを選択してください'
@@ -92,7 +92,7 @@ function stageview(stageid, stageNumber) {
 
   for (var i = 2; i <= flag.stageClear[stageiD]; i++) {
     var br = document.createElement('br')
-    document.getElementById('stages').prepend(br)
+    document.getElementById('stage').prepend(br)
     var button = document.createElement('button')
     button.id = `${stageID}${stageid}-${i}`
     button.style = 'margin-bottom: 5px;'
@@ -108,7 +108,7 @@ function stageview(stageid, stageNumber) {
   footer.style = 'margin-bottom: 5px;'
   footer.innerHTML = `クエストページに戻る`
   footer.onclick = function () {
-    main()
+    main_quest()
   }
   screen.appendChild(hr)
   screen.appendChild(footer)
