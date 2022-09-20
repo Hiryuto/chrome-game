@@ -29,9 +29,16 @@ chrome.runtime.onInstalled.addListener((details) => {
       stage: 1,
       stageClear: [1, 1],
     }
+    var gameInv = {
+      0: [{ 0: 1, 1: 5, 2: 10 }],
+      1: [{}],
+      2: [{}],
+      3: [{}],
+    }
+    Inv = JSON.stringify(gameInv)
     flags = JSON.stringify(flag)
     chrome.storage.local.set({ flag: flags })
-    chrome.storage.local.set({ gameInv: 'null' })
+    chrome.storage.local.set({ gameInv: Inv })
     chrome.storage.local.set({ gameGear: 'null' })
     chrome.storage.local.set({ gameSkill: 'null' })
   }
