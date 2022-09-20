@@ -20,8 +20,14 @@ setTimeout(() => {
   textContent('coin', Status.coin)
 }, 400)
 
-document.getElementById('quest').addEventListener('click', () => {
+document.getElementById('quest_button').addEventListener('click', () => {
   window.location.href = 'quest.html'
+})
+document.getElementById('status_button').addEventListener('click', () => {
+  window.location.href = 'status.html'
+})
+document.getElementById('inv_button').addEventListener('click', () => {
+  window.location.href = 'inventory.html'
 })
 
 /**
