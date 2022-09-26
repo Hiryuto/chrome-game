@@ -48,23 +48,28 @@ async function view(page) {
   for (var i = 0; i < 3; i++) {
     // 表の行を作成
     var row = document.createElement('tr')
-
     // <td> 要素とテキストノードを作成し、テキストノードを
     // <td> の内容として、その <td> を表の行の末尾に追加
-    var cell = document.createElement('td')
-    var cellText = document.createTextNode(item.item[i].name)
-    cell.appendChild(cellText)
-    row.appendChild(cell)
-    var cell = document.createElement('td')
-    var cellText = document.createTextNode(GameInv[0][0][0])
-    cell.appendChild(cellText)
-    row.appendChild(cell)
-    var cell = document.createElement('td')
-    var cellText = document.createTextNode(item.item[i].sell)
-    cell.appendChild(cellText)
-    row.appendChild(cell)
-
-    tblBody.appendChild(row)
+    if (item[page][i] != undefined) {
+      console.log('aaa' + GameInv[page][0][i])
+      var cell = document.createElement('td')
+      console.log
+      var cellText = document.createTextNode(item[page][i].name)
+      cell.appendChild(cellText)
+      row.appendChild(cell)
+      var cell = document.createElement('td')
+      console.log(GameInv[page][0][i])
+      var cellText = document.createTextNode(GameInv[page][0][i])
+      cell.appendChild(cellText)
+      row.appendChild(cell)
+      var cell = document.createElement('td')
+      var cellText = document.createTextNode(item[page][i].sell)
+      cell.appendChild(cellText)
+      row.appendChild(cell)
+      tblBody.appendChild(row)
+    } else {
+      return
+    }
   }
   tbl.appendChild(tblBody)
 }

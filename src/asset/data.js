@@ -150,13 +150,22 @@ export const stagedata = {
   ],
 }
 export const item = {
-  item: {
+  0: {
+    category: 'item',
     0: { name: 'デバッグ用', buy: 0, sell: 0 },
     1: { name: 'テストアイテム', buy: 5, sell: 2 },
     2: { name: 'test', buy: 4, sell: 2 },
   },
-  weapon: {},
-  other: {},
+  1: {
+    category: 'weapon',
+    0: { name: 'aaaa', buy: 1, sell: 0 },
+  },
+  2: {
+    category: 'armor',
+  },
+  3: {
+    category: 'other',
+  },
 }
 export const levelTable = {
   level: [
