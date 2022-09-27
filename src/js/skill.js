@@ -38,24 +38,36 @@ async function sync() {
   chrome.storage.local.get(['gameSkill'], function (response) {
     skill = JSON.parse(response.gameSkill)
   })
-  await sleep(1000)
+  await sleep(100)
 }
 document.getElementById('mainpage').addEventListener('click', () => {
   window.location.href = 'index.html'
 })
 
 async function viewSetup() {
-  sync()
-  await sleep(1000)
-  console.log(skill)
-  var details = document.createElement('details')
-  var summary = document.createElement('summary')
-  summary.innerHTML = skilldata[skill.setskill].name
-  details.appendChild(summary)
-  var p = document.createElement('p')
-  p.innerHTML = skilldata[skill.setskill].description
-  details.appendChild(p)
-  document.getElementById('SubmitSkill').appendChild(details)
+  await sync()
+  console.log(skill.setskill.length)
+  for (var i = 0; i < skill.setskill.length; i++) {
+    var skillid = skill.setskill[i]
+    var details = document.createElement('details')
+    var summary = document.createElement('summary')
+    summary.innerHTML = skilldata[skillid].name
+    details.appendChild(summary)
+    var box = document.createElement('div')
+    box.className = 'box1'
+    var box_title = document.createElement('span')
+    box_title.className = 'box-title'
+    box_title.innerHTML = '効果'
+    box.appendChild(box_title)
+    var p = document.createElement('p')
+    p.innerHTML = skilldata[skillid].effect
+    box.appendChild(p)
+    details.appendChild(box)
+    var p = document.createElement('p')
+    p.innerHTML = skilldata[skillid].description
+    details.appendChild(p)
+    document.getElementById('SubmitSkill').appendChild(details)
+  }
 }
 
 viewSetup()

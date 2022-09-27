@@ -37,7 +37,7 @@ chrome.runtime.onInstalled.addListener((details) => {
       3: [{}],
     }
     var skilldata = {
-      setskill: 0,
+      setskill: [0],
     }
     skill = JSON.stringify(skilldata)
     Inv = JSON.stringify(gameInv)
