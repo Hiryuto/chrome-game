@@ -35,11 +35,15 @@ chrome.runtime.onInstalled.addListener((details) => {
       2: [{}],
       3: [{}],
     }
+    var skilldata = {
+      setskill: 0,
+    }
+    skill = JSON.stringify(skilldata)
     Inv = JSON.stringify(gameInv)
     flags = JSON.stringify(flag)
     chrome.storage.local.set({ flag: flags })
     chrome.storage.local.set({ gameInv: Inv })
     chrome.storage.local.set({ gameGear: 'null' })
-    chrome.storage.local.set({ gameSkill: 'null' })
+    chrome.storage.local.set({ gameSkill: skill })
   }
 })

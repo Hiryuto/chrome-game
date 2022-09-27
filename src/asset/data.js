@@ -182,3 +182,19 @@ export const levelTable = {
     99, 99, 99, 99, 99, 99, 99, 99,
   ],
 }
+export const skilldata = {
+  0: {
+    id: 'test',
+    name: 'テストスキル1',
+    openlevel: 10,
+    effect: 'テストのためなし1',
+    description: 'これはテストスキルです',
+  },
+  1: {
+    id: 'test',
+    name: 'テストスキル2',
+    openlevel: 10,
+    effect: 'テストのためなし2',
+    description: 'これはテストスキルです',
+  },
+}
