@@ -6,7 +6,8 @@ chrome.runtime.onInstalled.addListener((details) => {
     chrome.storage.local.set({ CharacterImg: 'Temp' })
     chrome.storage.local.set({ TempImg: 'Temp' })
     chrome.storage.local.set({ authorization: 'Temp' })
-    //chrome.tabs.create({ url: "update.html" });
+    //開発版のみ
+    chrome.tabs.create({ url: 'index.html' })
     //ゲームの変数をChromeの同期ストレージに作成
     //プレイヤーステータスの作成
     var statuss = {
