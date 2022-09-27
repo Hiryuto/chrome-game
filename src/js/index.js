@@ -29,6 +29,9 @@ document.getElementById('status_button').addEventListener('click', () => {
 document.getElementById('inv_button').addEventListener('click', () => {
   window.location.href = 'inventory.html'
 })
+document.getElementById('skill').addEventListener('click', () => {
+  window.location.href = 'skill.html'
+})
 
 /**
  * @param {string} id HTMLのID

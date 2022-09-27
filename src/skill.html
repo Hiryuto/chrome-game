@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>ステータス設定</title>
+    <style>
+      body {
+        text-align: center;
+        width: 220px;
+      }
+
+      hr {
+        margin-bottom: 8px;
+        margin-top: 8px;
+      }
+
+      p {
+        margin: 0;
+        padding: 0;
+        font-size: 15px;
+      }
+      .box {
+        width: 200px; /* 横幅を200pxに指定 */
+        height: 200px; /* 横幅を200pxに指定 */
+        border: 1px solid #000; /* わかりやすくボーダーを引く */
+        overflow-y: scroll; /* 縦方向にスクロール可能にする */
+        margin: auto; /* 要素を真ん中に移動する */
+      }
+      /* アコーディオンメニュー */
+      details {
+        height: 10px;
+        transition: all 0.5s ease; /* 動きをなめらかに */
+      }
+      details[open] {
+        /* クリックしたとき */
+        height: 300px; /* 高さはお好みで */
+      }
+      summary::after {
+        /* 最初の状態 */
+        content: '+';
+        position: absolute;
+        right: 20px;
+        transition: all 0.3s ease;
+      }
+      details[open] summary::after {
+        /* クリックしたときに「+」⇒「×」 */
+        transform: rotate(45deg);
+      }
+      details[open] .codeWrapper {
+        /* クリックしたら表示される要素 */
+        overflow: auto;
+        animation: ani 1s; /* アニメーションの指定 */
+      }
+      @keyframes ani {
+        0% {
+          opacity: 0; /* 最初は見えない状態 */
+          transform: translateY(-20px); /* 20px上にずらしておく */
+        }
+        100% {
+          opacity: 1; /* 1秒後に見えるように */
+          transform: none; /* 20pxずらしたものを取り除く */
+        }
+      }
+      details summary::-webkit-details-marker {
+        display: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="body">
+      <h1>スキル選択</h1>
+      <div id="SubmitSkill" class="box">
+        <h3>設定中のスキル</h3>
+        <hr />
+      </div>
+      <hr />
+      <div id="SkillList" class="box">
+        <h3>スキルリスト</h3>
+        <hr />
+      </div>
+      <hr />
+      <button id="mainpage">メインページに戻る</button>
+    </div>
+    <script src="./js/skill.js" type="module"></script>
+  </body>
+</html>
