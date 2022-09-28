@@ -68,6 +68,42 @@ async function viewSetup() {
     details.appendChild(p)
     document.getElementById('SubmitSkill').appendChild(details)
   }
+  console.log(Object.keys(skilldata).length)
+  var j = 0
+  for (var i = 0; i < Object.keys(skilldata).length; i++) {
+    var skillid = skilldata[i]
+    var details = document.createElement('details')
+    var summary = document.createElement('summary')
+    summary.innerHTML = skilldata[i].name
+    details.appendChild(summary)
+    var box = document.createElement('div')
+    box.className = 'box1'
+    var box_title = document.createElement('span')
+    box_title.className = 'box-title'
+    box_title.innerHTML = '効果'
+    box.appendChild(box_title)
+    var p = document.createElement('p')
+    p.innerHTML = skilldata[i].effect
+    box.appendChild(p)
+    details.appendChild(box)
+    var p = document.createElement('p')
+    p.innerHTML = skilldata[i].description
+    details.appendChild(p)
+    var hr = document.createElement('hr')
+    details.appendChild(hr)
+    var button = document.createElement('button')
+    button.innerHTML = 'スキルをセットする'
+    button.id = i
+    var count = i
+    console.log(i)
+    button.setAttribute('onclick', `setskill(${i})`)
+    console.log(button.onclick)
+    details.appendChild(button)
+    document.getElementById('SkillList').appendChild(details)
+  }
 }
-
+function setskill(skillids) {
+  alert(skillids)
+}
+function delskill(skillids) {}
 viewSetup()

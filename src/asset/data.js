@@ -197,4 +197,18 @@ export const skilldata = {
     effect: 'テストのためなし2',
     description: 'これはテストスキルです',
   },
+  2: {
+    id: 'test',
+    name: 'テストスキル3',
+    openlevel: 10,
+    effect: 'テストのためなし2',
+    description: 'これはテストスキルです',
+  },
+  3: {
+    id: 'test',
+    name: 'テストスキル4',
+    openlevel: 10,
+    effect: 'テストのためなし2',
+    description: 'これはテストスキルです',
+  },
 }
