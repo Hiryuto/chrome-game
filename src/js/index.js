@@ -3,7 +3,7 @@
  * ステータスが入る変数です
  * @type {{level: レベル,exp: 経験値,totalExp: 累計経験値,hp: 体力,atk: 攻撃力,def: 防御力,spd: スピード,point:ステータスポイント,coin:コイン,}}
  */
-var Status
+let Status
 
 //chrome.storageから変数を取得
 chrome.storage.local.get([`gamestatus`], function (response) {

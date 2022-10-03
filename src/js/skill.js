@@ -47,38 +47,35 @@ document.getElementById('mainpage').addEventListener('click', () => {
 async function viewSetup() {
   await sync()
   console.log(skill.setskill.length)
-  for (var i = 0; i < skill.setskill.length; i++) {
-    var skillid = skill.setskill[i]
-    var details = document.createElement('details')
-    var summary = document.createElement('summary')
+  for (let i = 0; i < skill.setskill.length; i++) {
+    const skillid = skill.setskill[i]
+    const details = document.createElement('details')
+    const summary = document.createElement('summary')
     summary.innerHTML = skilldata[skillid].name
     details.appendChild(summary)
-    var box = document.createElement('div')
+    const box = document.createElement('div')
     box.className = 'box1'
-    var box_title = document.createElement('span')
+    const box_title = document.createElement('span')
     box_title.className = 'box-title'
     box_title.innerHTML = '効果'
     box.appendChild(box_title)
-    var p = document.createElement('p')
+    const p = document.createElement('p')
     p.innerHTML = skilldata[skillid].effect
     box.appendChild(p)
     details.appendChild(box)
-    var p = document.createElement('p')
     p.innerHTML = skilldata[skillid].description
     details.appendChild(p)
     document.getElementById('SubmitSkill').appendChild(details)
   }
   console.log(Object.keys(skilldata).length)
-  var j = 0
-  for (var i = 0; i < Object.keys(skilldata).length; i++) {
-    var skillid = skilldata[i]
-    var details = document.createElement('details')
-    var summary = document.createElement('summary')
+  for (let i = 0; i < Object.keys(skilldata).length; i++) {
+    const details = document.createElement('details')
+    const summary = document.createElement('summary')
     summary.innerHTML = skilldata[i].name
     details.appendChild(summary)
-    var box = document.createElement('div')
+    const box = document.createElement('div')
     box.className = 'box1'
-    var box_title = document.createElement('span')
+    const box_title = document.createElement('span')
     box_title.className = 'box-title'
     box_title.innerHTML = '効果'
     box.appendChild(box_title)

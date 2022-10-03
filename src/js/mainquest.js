@@ -2,13 +2,13 @@
  * ステータスが入る変数です
  * @type {{level: レベル,exp: 経験値,totalExp: 累計経験値,hp: 体力,atk: 攻撃力,def: 防御力,spd: スピード,point:ステータスポイント,coin:コイン,}}
  */
-var Status
+let Status
 
 /**
  * ゲームフラグが管理されている変数です
  * @type {{stage: 最大クリア親ステージ,stageClear: [最大クリアステージ],}}
  */
-var flag
+let flag
 
 /**
  * ステージ情報
@@ -35,19 +35,20 @@ async function main_quest() {
   await sync()
   console.log(flag)
   for (var i = 1; flag.stage >= i; i++) {
-    var id = i - 1
-    var button = document.createElement('button')
+    const id = i - 1
+    const button = document.createElement('button')
     button.style = 'margin-bottom: 5px;'
     button.innerHTML = `${stagedata.data[id].StageName}`
+    console.log(stagedata)
     button.id = stagedata.data[id].StageId
     button.onclick = function () {
       stageload(i - 1)
     }
-    var br = document.createElement('br')
+    const br = document.createElement('br')
     document.getElementById('screen').prepend(br)
     document.getElementById('screen').prepend(button)
   }
-  var h2 = document.createElement('h2')
+  const h2 = document.createElement('h2')
   h2.innerHTML = 'ステージを選択してください'
   document.getElementById('screen').prepend(h2)
   document.getElementById('mainpage').style.display = 'inline-block'
@@ -64,23 +65,22 @@ async function stageload(stageid) {
 }
 
 function stageview(stageid, stageNumber) {
-  var stageiD = stageid - 1
-  var stageID = stagedata.data[stageiD].StageId
-  var stageName = stagedata.data[stageiD].StageName
+  const stageiD = stageid - 1
+  const stageID = stagedata.data[stageiD].StageId
+  const stageName = stagedata.data[stageiD].StageName
   stageNumber += 1
   const screen = document.getElementById('screen')
 
   while (screen.lastChild) {
     screen.removeChild(screen.lastChild)
   }
-  var header = document.createElement('h2')
+  const header = document.createElement('h2')
   header.innerHTML = 'ステージを選択してください'
   screen.appendChild(header)
-  var br = document.createElement('br')
-  var stages = document.createElement('div')
+  const stages = document.createElement('div')
   stages.id = 'stage'
   screen.appendChild(stages)
-  var button = document.createElement('button')
+  const button = document.createElement('button')
   button.id = `${stageID}${stageid}-1`
   button.style = 'margin-bottom: 5px;'
   button.innerHTML = `${stageName} ${stageid}-1`
@@ -90,10 +90,10 @@ function stageview(stageid, stageNumber) {
   // document.getElementById('stage').append(br)
   document.getElementById('stage').prepend(button)
 
-  for (var i = 2; i <= flag.stageClear[stageiD]; i++) {
-    var br = document.createElement('br')
+  for (let i = 2; i <= flag.stageClear[stageiD]; i++) {
+    const br = document.createElement('br')
     document.getElementById('stage').prepend(br)
-    var button = document.createElement('button')
+    const button = document.createElement('button')
     button.id = `${stageID}${stageid}-${i}`
     button.style = 'margin-bottom: 5px;'
     button.innerHTML = `${stageName} ${stageid}-${i}`
@@ -103,8 +103,8 @@ function stageview(stageid, stageNumber) {
     }
     document.getElementById('stage').prepend(button)
   }
-  var hr = document.createElement('hr')
-  var footer = document.createElement('button')
+  const hr = document.createElement('hr')
+  const footer = document.createElement('button')
   footer.id = `backquest`
   footer.style = 'margin-bottom: 5px;'
   footer.innerHTML = `クエストページに戻る`

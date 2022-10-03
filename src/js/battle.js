@@ -2,17 +2,17 @@
  * ステータスが入る変数です
  * @type {{level: レベル,exp: 経験値,totalExp: 累計経験値,hp: 体力,atk: 攻撃力,def: 防御力,spd: スピード,point:ステータスポイント,coin:コイン,}}
  */
-var Status
+let Status
 
 /**
  * ゲームフラグが管理されている変数です
  * @type {{stage: 最大クリア親ステージ,stageClear: [最大クリアステージ],}}
  */
-var flag
+let flag
 
-var url = new URL(window.location.href)
-var stage = Number(url.searchParams.get('stage'))
-var stageid = Number(url.searchParams.get('stageid'))
+const url = new URL(window.location.href)
+const stage = Number(url.searchParams.get('stage'))
+const stageid = Number(url.searchParams.get('stageid'))
 
 import { stagedata, item, levelTable } from '../asset/data.js'
 
@@ -40,7 +40,7 @@ battle()
 
 async function battle() {
   await sync()
-  var Enemydata = stagedata.data[stage - 1].info[stageid]
+  const Enemydata = stagedata.data[stage - 1].info[stageid]
   innerHTML(
     'screen',
     `<h2>敵の情報</h2><h3>${Enemydata.EnemyName}</h3><div class="box"><div class="statusbox" style="display: flex;justify-content: center;"><p>HP:${Enemydata.EnemyHp}</p><p>Atk:${Enemydata.EnemyAtk}</p></div><div class="statusbox" style="display: flex;justify-content: center;"><p>Def:${Enemydata.EnemyDef}</p><p>Spd:${Enemydata.EnemySpd}</p></div></div><h2>自分の情報</h2><div class="box"><div class="statusbox" style="display: flex;justify-content: center;"><p>HP:${Status.hp}</p><p>ATK:${Status.atk}</p></div><div class="statusbox" style="display: flex;justify-content: center;"><p>DEF:${Status.def}</p><p>SPD:${Status.spd}</p></div></div></div><button id="start">バトルを開始する</button><hr><button id="backquest">クエストページに戻る</button>`,
@@ -57,16 +57,16 @@ async function battle() {
 }
 
 async function BattleStart(stagename, stageid) {
-  var Enemydata = stagedata.data[stage - 1].info[stageid]
-  var nowenemyHp = Enemydata.EnemyHp
-  var nowplayerHp = Status.hp
-  var next_stage = stageid + 1
-  var log = ''
-  var atk
-  var leftexp
-  var nowexp
-  var levelUp = ''
-  var stageMessage = ''
+  const Enemydata = stagedata.data[stage - 1].info[stageid]
+  let nowenemyHp = Enemydata.EnemyHp
+  let nowplayerHp = Status.hp
+  const next_stage = stageid + 1
+  let log = ''
+  let atk
+  let leftexp
+  let nowexp
+  let levelUp = ''
+  let stageMessage = ''
   pageload(nowenemyHp, nowplayerHp, log, stage, stageid)
   //敵のHPが無くなるまでループする
   while (nowenemyHp > 0) {
@@ -80,7 +80,7 @@ async function BattleStart(stagename, stageid) {
     }
     await sleep(500)
     //攻撃判定
-    var random = Math.floor(Math.random() * (2 + 1 - 1)) + 1
+    let random = Math.floor(Math.random() * (2 + 1 - 1)) + 1
     if (random == 2) {
       atk = Math.ceil(Status.atk / (1 + Enemydata.EnemyDef / 100))
       nowenemyHp -= atk
@@ -104,11 +104,11 @@ async function BattleStart(stagename, stageid) {
     log += `\n戦闘に勝利した！`
     pageload(nowenemyHp, nowplayerHp, log, stage, stageid)
     await sleep(2000)
-    var ExpRandom = Math.floor(Math.random() * (Enemydata.ExpMax + 1 - Enemydata.ExpMin)) + Enemydata.ExpMin
+    const ExpRandom = Math.floor(Math.random() * (Enemydata.ExpMax + 1 - Enemydata.ExpMin)) + Enemydata.ExpMin
     //経験値付与
     Status.exp += ExpRandom
     Status.totalExp += ExpRandom
-    var CoinRandom = Math.floor(Math.random() * (Enemydata.CoinMax + 1 - Enemydata.CoinMin) + Enemydata.CoinMin)
+    const CoinRandom = Math.floor(Math.random() * (Enemydata.CoinMax + 1 - Enemydata.CoinMin) + Enemydata.CoinMin)
     //Coin付与
     Status.coin += CoinRandom
     //レベルアップ処理
@@ -116,7 +116,7 @@ async function BattleStart(stagename, stageid) {
       Status.exp -= levelTable.level[Status.level - 1]
       Status.level++
       Status.point++
-      setstatus = JSON.stringify(Status)
+      let setstatus = JSON.stringify(Status)
       chrome.storage.local.set({
         gamestatus: setstatus,
       })
@@ -141,8 +141,8 @@ async function BattleStart(stagename, stageid) {
     }
     nowexp = Status.exp
     leftexp = levelTable.level[Status.level - 1] - nowexp
-    var setstatus = JSON.stringify(Status)
-    var flags = JSON.stringify(flag)
+    let setstatus = JSON.stringify(Status)
+    let flags = JSON.stringify(flag)
     //出力
     innerHTML(
       'screen',
@@ -193,7 +193,7 @@ function innerHTML(id, message) {
  * @param {log} log
  */
 function pageload(nowenemyHp, nowplayerHp, log, stage, stageid) {
-  var Enemydata = stagedata.data[stage - 1].info[stageid]
+  const Enemydata = stagedata.data[stage - 1].info[stageid]
   innerHTML(
     'screen',
     `<h1>${
