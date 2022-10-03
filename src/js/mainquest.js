@@ -98,7 +98,8 @@ function stageview(stageid, stageNumber) {
     button.style = 'margin-bottom: 5px;'
     button.innerHTML = `${stageName} ${stageid}-${i}`
     button.onclick = function () {
-      window.location.href = `./battle.html?stage=${stageid}&stageid=${i - 1}`
+      window.location.href = `./battle.html?stage=${stageid}&stageid=${i - 1}` //1
+      test(`${i}`) //2
     }
     document.getElementById('stage').prepend(button)
   }
