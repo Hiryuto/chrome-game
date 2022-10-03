@@ -96,7 +96,9 @@ async function viewSetup() {
     button.id = i
     var count = i
     console.log(i)
-    button.setAttribute('onclick', `setskill(${i})`)
+    button.onclick = function () {
+      setskill(i)
+    }
     console.log(button.onclick)
     details.appendChild(button)
     document.getElementById('SkillList').appendChild(details)
