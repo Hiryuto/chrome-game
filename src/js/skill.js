@@ -25,27 +25,31 @@ import { skilldata } from '../asset/data.js'
  */
 const sleep = (waitTime) => new Promise((resolve) => setTimeout(resolve, waitTime))
 
+function loadLocalSroeage(name) {
+  return new Promise((resolve, reject) => {
+    chrome.storage.local.get([name], function (response) {
+      const Status = JSON.parse(response.gamestatus)
+      resolve(Status)
+    })
+  })
+}
+
 /**
  * ゲームデータの同期
  */
 async function sync() {
-  chrome.storage.local.get([`gamestatus`], function (response) {
-    Status = JSON.parse(response.gamestatus)
-  })
-  chrome.storage.local.get(['flag'], function (response) {
-    flag = JSON.parse(response.flag)
-  })
-  chrome.storage.local.get(['gameSkill'], function (response) {
-    skill = JSON.parse(response.gameSkill)
-  })
-  await sleep(100)
+  Status = await chrome.storage.local.get('gamestatus')
+  flag = await chrome.storage.local.get('flag')
+  skill = await chrome.storage.local.get('gameSkill')
 }
 document.getElementById('mainpage').addEventListener('click', () => {
   window.location.href = 'index.html'
 })
 
 async function viewSetup() {
+  console.log('aaaa')
   await sync()
+  console.log(skill)
   console.log(skill.setskill.length)
   for (let i = 0; i < skill.setskill.length; i++) {
     const skillid = skill.setskill[i]
@@ -93,6 +97,7 @@ async function viewSetup() {
     button.id = i
     console.log(i)
     button.onclick = function () {
+      console.log(skill)
       setskill(i)
     }
     console.log(button.onclick)
@@ -101,7 +106,13 @@ async function viewSetup() {
   }
 }
 function setskill(skillids) {
-  alert(skillids)
+  let result = window.confirm(skilldata[skillids].name + 'を設定してよろしいですか？')
+  if (result) {
+    let skill_splice = skill.setskill
+    skill_splice.splice(0, 1, skillids)
+    console.log(skill)
+  } else {
+  }
 }
 function delskill(skillids) {}
 viewSetup()
