@@ -2,19 +2,19 @@
  * ステータスが入る変数です
  * @type {{level: レベル,exp: 経験値,totalExp: 累計経験値,hp: 体力,atk: 攻撃力,def: 防御力,spd: スピード,point:ステータスポイント,coin:コイン,}}
  */
-var Status
+let Status
 
 /**
  * ゲームフラグが管理されている変数です
  * @type {{stage: 最大クリア親ステージ,stageClear: [最大クリアステージ],}}
  */
-var flag
+let flag
 
 /**
  * スキルが管理されている変数
  * @type {{setskill: SkillId}}
  */
-var skill
+let skill
 
 import { skilldata } from '../asset/data.js'
 
