@@ -25,15 +25,6 @@ import { skilldata } from '../asset/data.js'
  */
 const sleep = (waitTime) => new Promise((resolve) => setTimeout(resolve, waitTime))
 
-function loadLocalSroeage(name) {
-  return new Promise((resolve, reject) => {
-    chrome.storage.local.get([name], function (response) {
-      const Status = JSON.parse(response.gamestatus)
-      resolve(Status)
-    })
-  })
-}
-
 /**
  * ゲームデータの同期
  */
