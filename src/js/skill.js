@@ -79,19 +79,18 @@ async function viewSetup() {
     box_title.className = 'box-title'
     box_title.innerHTML = '効果'
     box.appendChild(box_title)
-    var p = document.createElement('p')
-    p.innerHTML = skilldata[i].effect
-    box.appendChild(p)
+    let effect_p = document.createElement('p')
+    effect_p.innerHTML = skilldata[i].effect
+    box.appendChild(effect_p)
     details.appendChild(box)
-    var p = document.createElement('p')
-    p.innerHTML = skilldata[i].description
-    details.appendChild(p)
-    var hr = document.createElement('hr')
+    let description_p = document.createElement('p')
+    description_p.innerHTML = skilldata[i].description
+    details.appendChild(description_p)
+    let hr = document.createElement('hr')
     details.appendChild(hr)
-    var button = document.createElement('button')
+    let button = document.createElement('button')
     button.innerHTML = 'スキルをセットする'
     button.id = i
-    var count = i
     console.log(i)
     button.onclick = function () {
       setskill(i)

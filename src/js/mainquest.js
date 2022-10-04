@@ -34,7 +34,7 @@ async function main_quest() {
   clear_screen()
   await sync()
   console.log(flag)
-  for (var i = 1; flag.stage >= i; i++) {
+  for (let i = 1; flag.stage >= i; i++) {
     const id = i - 1
     const button = document.createElement('button')
     button.style = 'margin-bottom: 5px;'

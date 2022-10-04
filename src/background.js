@@ -21,22 +21,22 @@ chrome.runtime.onInstalled.addListener((details) => {
       point: 100,
       coin: 0,
     }
-    var status = JSON.stringify(statuss)
+    let status = JSON.stringify(statuss)
     chrome.storage.local.set({
       gamestatus: status,
     })
     //システム
-    var flag = {
+    let flag = {
       stage: 1,
       stageClear: [1, 1],
     }
-    var gameInv = {
+    let gameInv = {
       0: [{ 0: 1, 1: 5, 2: 10 }],
       1: [{}],
       2: [{}],
       3: [{}],
     }
-    var skilldata = {
+    let skilldata = {
       setskill: [0],
     }
     skill = JSON.stringify(skilldata)
