@@ -3,14 +3,11 @@ chrome.runtime.onInstalled.addListener((details) => {
     chrome.tabs.create({ url: 'installed.html' })
   }
   if (details.reason === 'update') {
-    chrome.storage.local.set({ CharacterImg: 'Temp' })
-    chrome.storage.local.set({ TempImg: 'Temp' })
-    chrome.storage.local.set({ authorization: 'Temp' })
     //開発版のみ
     chrome.tabs.create({ url: 'index.html' })
     //ゲームの変数をChromeの同期ストレージに作成
     //プレイヤーステータスの作成
-    var statuss = {
+    var statusData = {
       level: 1,
       exp: 0,
       totalExp: 0,
@@ -21,30 +18,26 @@ chrome.runtime.onInstalled.addListener((details) => {
       point: 100,
       coin: 0,
     }
-    let status = JSON.stringify(statuss)
     chrome.storage.local.set({
-      gamestatus: status,
+      status: statusData,
     })
     //システム
-    let flag = {
+    let flagData = {
       stage: 1,
       stageClear: [1, 1],
     }
-    let gameInv = {
+    let gameInvData = {
       0: [{ 0: 1, 1: 5, 2: 10 }],
       1: [{}],
       2: [{}],
       3: [{}],
     }
-    let skilldata = {
-      setskill: [0],
+    let skillData = {
+      setSkill: [0],
     }
-    skill = JSON.stringify(skilldata)
-    Inv = JSON.stringify(gameInv)
-    flags = JSON.stringify(flag)
-    chrome.storage.local.set({ flag: flag })
-    chrome.storage.local.set({ gameInv: gameInv })
+    chrome.storage.local.set({ flag: flagData })
+    chrome.storage.local.set({ gameInv: gameInvData })
     chrome.storage.local.set({ gameGear: 'null' })
-    chrome.storage.local.set({ gameSkill: skilldata })
+    chrome.storage.local.set({ skill: skillData })
   }
 })

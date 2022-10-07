@@ -1,33 +1,3 @@
-/**
- * ステータスが入る変数です
- * @type {{level: レベル,exp: 経験値,totalExp: 累計経験値,hp: 体力,atk: 攻撃力,def: 防御力,spd: スピード,point:ステータスポイント,coin:コイン,}}
- */
-let Status
-
-/**
- * ゲームフラグが管理されている変数です
- * @type {{stage: 最大クリア親ステージ,stageClear: [最大クリアステージ],}}
- */
-let flag
-
-/**
- * ステージ情報
- */
-import { stagedata, item } from '../asset/data.js'
-
-/**
- * ゲームデータの同期
- */
-async function sync() {
-  chrome.storage.local.get([`gamestatus`], function (response) {
-    Status = JSON.parse(response.gamestatus)
-  })
-  chrome.storage.local.get(['flag'], function (response) {
-    flag = JSON.parse(response.flag)
-  })
-  await sleep(100)
-}
-
 function clear_screen() {
   const screen = document.getElementById('screen')
   while (screen.lastChild) {

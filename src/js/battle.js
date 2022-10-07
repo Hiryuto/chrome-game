@@ -23,19 +23,6 @@ import { stagedata, item, levelTable } from '../asset/data.js'
  */
 const sleep = (waitTime) => new Promise((resolve) => setTimeout(resolve, waitTime))
 
-/**
- * ゲームデータの同期
- */
-async function sync() {
-  chrome.storage.local.get([`gamestatus`], function (response) {
-    Status = JSON.parse(response.gamestatus)
-  })
-  chrome.storage.local.get(['flag'], function (response) {
-    flag = JSON.parse(response.flag)
-  })
-  await sleep(100)
-}
-
 battle()
 
 async function battle() {
