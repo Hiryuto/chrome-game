@@ -3,7 +3,8 @@
  * @returns {Promise<{level: レベル,exp: 経験値,totalExp: 累計経験値,hp: 体力,atk: 攻撃力,def: 防御力,spd: スピード,point:ステータスポイント,coin:コイン,}>}
  */
 export async function getStatus() {
-  Status = await chrome.storage.local.get('status')
+  const Status = await chrome.storage.local.get('status')
+  return Status.status
 }
 /**
  * ゲームフラグを返す関数
@@ -11,7 +12,6 @@ export async function getStatus() {
  */
 export async function getFlag() {
   flag = await chrome.storage.local.get('flag')
-  console.log(flag)
 }
 /**
  * スキルのデータを返す関数
