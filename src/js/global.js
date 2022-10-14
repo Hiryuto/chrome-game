@@ -11,7 +11,8 @@ export async function getStatus() {
  * @returns {Promise<{stage: 最大クリア親ステージ,stageClear: [最大クリアステージ],}>}
  */
 export async function getFlag() {
-  flag = await chrome.storage.local.get('flag')
+  const flag = await chrome.storage.local.get('flag')
+  return flag.flag
 }
 /**
  * スキルのデータを返す関数
