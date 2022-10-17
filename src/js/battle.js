@@ -1,15 +1,3 @@
-/**
- * ステータスが入る変数です
- * @type {{level: レベル,exp: 経験値,totalExp: 累計経験値,hp: 体力,atk: 攻撃力,def: 防御力,spd: スピード,point:ステータスポイント,coin:コイン,}}
- */
-let Status
-
-/**
- * ゲームフラグが管理されている変数です
- * @type {{stage: 最大クリア親ステージ,stageClear: [最大クリアステージ],}}
- */
-let flag
-
 const url = new URL(window.location.href)
 const stage = Number(url.searchParams.get('stage'))
 const stageid = Number(url.searchParams.get('stageid'))

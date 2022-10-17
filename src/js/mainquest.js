@@ -1,10 +1,4 @@
 /**
- * ゲームフラグが管理されている変数です
- * @type {{stage: 最大クリア親ステージ,stageClear: [最大クリアステージ],}}
- */
-let flag
-
-/**
  * ステージ情報
  */
 import { stageData, item } from '../asset/data.js'
