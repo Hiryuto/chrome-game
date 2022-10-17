@@ -71,6 +71,7 @@ async function setSkill(skillIds) {
     chrome.storage.local.set({
       skill: skill,
     })
+    window.location.reload()
   } else {
   }
 }
