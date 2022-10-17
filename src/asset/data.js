@@ -17,6 +17,10 @@ export const stageData = {
           ExpMax: 3,
           CoinMin: 1,
           CoinMax: 1,
+          drop: {
+            0: { chance: 100, category: 0, id: 0, dropMax: 1, dropMin: 1 },
+            1: { chance: 100, category: 0, id: 1, dropMax: 20, dropMin: 10 },
+          },
         },
         2: {
           StageId: 2,
@@ -29,6 +33,7 @@ export const stageData = {
           ExpMax: 3,
           CoinMin: 1,
           CoinMax: 1,
+          drop: {},
         },
         3: {
           StageId: 3,
@@ -41,6 +46,7 @@ export const stageData = {
           ExpMax: 3,
           CoinMin: 1,
           CoinMax: 1,
+          drop: {},
         },
         4: {
           StageId: 4,
@@ -53,6 +59,7 @@ export const stageData = {
           ExpMax: 3,
           CoinMin: 1,
           CoinMax: 1,
+          drop: {},
         },
         5: {
           StageId: 5,
@@ -65,6 +72,7 @@ export const stageData = {
           ExpMax: 3,
           CoinMin: 1,
           CoinMax: 1,
+          drop: {},
         },
         6: {
           StageId: 6,
@@ -77,6 +85,7 @@ export const stageData = {
           ExpMax: 3,
           CoinMin: 1,
           CoinMax: 1,
+          drop: {},
         },
         7: {
           StageId: 7,
@@ -89,6 +98,7 @@ export const stageData = {
           ExpMax: 3,
           CoinMin: 1,
           CoinMax: 1,
+          drop: {},
         },
         8: {
           StageId: 8,
@@ -101,6 +111,7 @@ export const stageData = {
           ExpMax: 3,
           CoinMin: 1,
           CoinMax: 1,
+          drop: {},
         },
         9: {
           StageId: 9,
@@ -113,6 +124,7 @@ export const stageData = {
           ExpMax: 3,
           CoinMin: 1,
           CoinMax: 1,
+          drop: {},
         },
         10: {
           StageId: 10,
@@ -125,6 +137,7 @@ export const stageData = {
           ExpMax: 3,
           CoinMin: 1,
           CoinMax: 1,
+          drop: {},
         },
       },
     },
@@ -144,6 +157,7 @@ export const stageData = {
           ExpMax: 3,
           CoinMin: 1,
           CoinMax: 1,
+          drop: {},
         },
       },
     },

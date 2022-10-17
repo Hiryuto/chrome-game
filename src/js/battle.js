@@ -4,7 +4,7 @@ const stageid = Number(url.searchParams.get('stageid'))
 
 import { stageData, item, levelTable } from '../asset/data.js'
 
-import { getStatus, getFlag } from './global.js'
+import { getStatus, getFlag, getGameInv } from './global.js'
 
 /**
  * 待機 ※await必須
@@ -40,6 +40,7 @@ async function BattleStart(stagename, stageid) {
   let nowenemyHp = Enemydata.EnemyHp
   let nowplayerHp = Status.hp
   const next_stage = stageid + 1
+  let itemLog
   let log = ''
   let atk
   let leftexp
@@ -119,10 +120,47 @@ async function BattleStart(stagename, stageid) {
     }
     nowexp = Status.exp
     leftexp = levelTable.level[Status.level - 1] - nowexp
+
+    //ドロップアイテム処理
+    //console.log(Object.keys(Enemydata.drop[5]).length)
+    if (Object.keys(Enemydata.drop).length >= 1) {
+      for (let i = 0; i < Object.keys(Enemydata.drop).length; i++) {
+        const chance = Enemydata.drop[i].chance
+        const rand = Math.floor(Math.random() * 10000) / 100
+        if (rand <= chance) {
+          const pieces = Math.floor(
+            Math.random() * (Enemydata.drop[i].dropMax - Enemydata.drop[i].dropMin) + Enemydata.drop[i].dropMin,
+          )
+          //* campaign
+          const gameInv = await getGameInv()
+          const category = Enemydata.drop[i].category
+          console.log(gameInv[category][0][Enemydata.drop[i].id])
+          if (gameInv[category][0][Enemydata.drop[i].id] == undefined) {
+            console.log('nai')
+            gameInv[category][0][Enemydata.drop[i].id] = pieces
+          } else {
+            console.log('aru')
+            gameInv[category][0][Enemydata.drop[i].id] += pieces
+          }
+          if (i == 0) {
+            itemLog = `\n${item[category][Enemydata.drop[i].id].name} ${pieces}個`
+          } else {
+            itemLog += `\n${item[category][Enemydata.drop[i].id].name} ${pieces}個`
+          }
+          chrome.storage.local.set({
+            gameInv: gameInv,
+          })
+        }
+      }
+    }
     //出力
+    console.log(itemLog)
+    if (itemLog == undefined) {
+      itemLog = 'なし'
+    }
     innerHTML(
       'screen',
-      `<h1>勝利！</h1><h2>${stageMessage}</h2><h2>${levelUp}</h2><h2>Exp:${ExpRandom}</h2><h2>Coin:${CoinRandom}</h2><h2>次のレベルまであと${leftexp}exp</h2><hr><button id="backquest">クエストページに戻る</button>`,
+      `<h1>勝利！</h1><h2>${stageMessage}</h2><h2>${levelUp}</h2><h2>Exp:${ExpRandom}</h2><h2>Coin:${CoinRandom}</h2><h2>次のレベルまであと${leftexp}exp</h2><h2>入手アイテム</h2><textarea id="log" rows="4" cols="35" style="resize: none;" disabled>${itemLog}</textarea><hr><button id="backquest">クエストページに戻る</button>`,
     )
     //保存
     chrome.storage.local.set({
