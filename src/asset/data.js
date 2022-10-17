@@ -1,4 +1,4 @@
-export const stagedata = {
+export const stageData = {
   StageTotal: 2,
   data: [
     {
@@ -182,7 +182,7 @@ export const levelTable = {
     99, 99, 99, 99, 99, 99, 99, 99,
   ],
 }
-export const skilldata = {
+export const skillData = {
   0: {
     id: 'test',
     name: 'テストスキル1',

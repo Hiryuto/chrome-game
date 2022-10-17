@@ -19,8 +19,8 @@ export async function getFlag() {
  * @returns {Promise<{setskill: [SkillId]}>}
  */
 export async function getSkill() {
-  const skill = await chrome.storage.local.get('gameSkill')
-  return skill.gameSkill
+  const skill = await chrome.storage.local.get('skill')
+  return skill.skill
 }
 
 /**
