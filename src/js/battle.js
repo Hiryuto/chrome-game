@@ -16,6 +16,8 @@ const stageid = Number(url.searchParams.get('stageid'))
 
 import { stagedata, item, levelTable } from '../asset/data.js'
 
+import { getStatus, getFlag } from './global.js'
+
 /**
  * 待機 ※await必須
  * @param {待つ時間} waitTime
@@ -26,7 +28,7 @@ const sleep = (waitTime) => new Promise((resolve) => setTimeout(resolve, waitTim
 battle()
 
 async function battle() {
-  await sync()
+  const Status = await getStatus()
   const Enemydata = stagedata.data[stage - 1].info[stageid]
   innerHTML(
     'screen',
@@ -44,6 +46,8 @@ async function battle() {
 }
 
 async function BattleStart(stagename, stageid) {
+  const Status = await getStatus()
+  const flag = await getFlag()
   const Enemydata = stagedata.data[stage - 1].info[stageid]
   let nowenemyHp = Enemydata.EnemyHp
   let nowplayerHp = Status.hp
@@ -103,9 +107,8 @@ async function BattleStart(stagename, stageid) {
       Status.exp -= levelTable.level[Status.level - 1]
       Status.level++
       Status.point++
-      let setstatus = JSON.stringify(Status)
       chrome.storage.local.set({
-        gamestatus: setstatus,
+        status: Status,
       })
       levelUp = `レベルUp!! ${Status.level - 1}→${Status.level}`
     }
@@ -128,8 +131,6 @@ async function BattleStart(stagename, stageid) {
     }
     nowexp = Status.exp
     leftexp = levelTable.level[Status.level - 1] - nowexp
-    let setstatus = JSON.stringify(Status)
-    let flags = JSON.stringify(flag)
     //出力
     innerHTML(
       'screen',
@@ -137,10 +138,10 @@ async function BattleStart(stagename, stageid) {
     )
     //保存
     chrome.storage.local.set({
-      flag: flags,
+      flag: flag,
     })
     chrome.storage.local.set({
-      gamestatus: setstatus,
+      status: Status,
     })
     document.getElementById('mainpage').style.display = 'inline-block'
     document.getElementById('br').style.display = 'block'
@@ -179,7 +180,8 @@ function innerHTML(id, message) {
  * @param {今の自分のHP} nowplayerHp
  * @param {log} log
  */
-function pageload(nowenemyHp, nowplayerHp, log, stage, stageid) {
+async function pageload(nowenemyHp, nowplayerHp, log, stage, stageid) {
+  const Status = await getStatus()
   const Enemydata = stagedata.data[stage - 1].info[stageid]
   innerHTML(
     'screen',

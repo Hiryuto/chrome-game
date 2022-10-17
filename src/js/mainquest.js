@@ -20,13 +20,11 @@ function clear_screen() {
 async function main_quest() {
   clear_screen()
   const flag = await getFlag()
-  console.log(flag)
   for (let i = 1; flag.stage >= i; i++) {
     const id = i - 1
     const button = document.createElement('button')
     button.style = 'margin-bottom: 5px;'
     button.innerHTML = `${stagedata.data[id].StageName}`
-    console.log(stagedata)
     button.id = stagedata.data[id].StageId
     button.onclick = function () {
       stageload(i - 1)
@@ -48,10 +46,12 @@ async function stageload(stageid) {
   stageview(stageid)
 }
 
-function stageview(stageid, stageNumber) {
-  const stageiD = stageid - 1
-  const stageID = stagedata.data[stageiD].StageId
-  const stageName = stagedata.data[stageiD].StageName
+async function stageview(stageid, stageNumber) {
+  const flag = await getFlag()
+  const stageID = stagedata.data[stageid].StageId
+  const stageName = stagedata.data[stageid].StageName
+  const stageIDs = stagedata.data[stageid].Stage
+  const stageiD = stageid
   stageNumber += 1
   const screen = document.getElementById('screen')
 
@@ -64,26 +64,15 @@ function stageview(stageid, stageNumber) {
   const stages = document.createElement('div')
   stages.id = 'stage'
   screen.appendChild(stages)
-  const button = document.createElement('button')
-  button.id = `${stageID}${stageid}-1`
-  button.style = 'margin-bottom: 5px;'
-  button.innerHTML = `${stageName} ${stageid}-1`
-  button.onclick = function () {
-    window.location.href = `./battle.html?stage=${stageid}&stageid=1`
-  }
-  // document.getElementById('stage').append(br)
-  document.getElementById('stage').prepend(button)
-
-  for (let i = 2; i <= flag.stageClear[stageiD]; i++) {
+  for (let i = 1; i <= flag.stageClear[stageiD]; i++) {
     const br = document.createElement('br')
     document.getElementById('stage').prepend(br)
     const button = document.createElement('button')
-    button.id = `${stageID}${stageid}-${i}`
+    button.id = `${stageID}${stageIDs}-${i}`
     button.style = 'margin-bottom: 5px;'
-    button.innerHTML = `${stageName} ${stageid}-${i}`
+    button.innerHTML = `${stageName} ${stageIDs}-${i}`
     button.onclick = function () {
-      window.location.href = `./battle.html?stage=${stageid}&stageid=${i - 1}` //1
-      test(`${i}`) //2
+      window.location.href = `./battle.html?stage=${stageIDs}&stageid=${i}`
     }
     document.getElementById('stage').prepend(button)
   }
