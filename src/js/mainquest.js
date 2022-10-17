@@ -7,7 +7,7 @@ let flag
 /**
  * ステージ情報
  */
-import { stagedata, item } from '../asset/data.js'
+import { stageData, item } from '../asset/data.js'
 
 import { getFlag } from './global.js'
 
@@ -24,8 +24,8 @@ async function main_quest() {
     const id = i - 1
     const button = document.createElement('button')
     button.style = 'margin-bottom: 5px;'
-    button.innerHTML = `${stagedata.data[id].StageName}`
-    button.id = stagedata.data[id].StageId
+    button.innerHTML = `${stageData.data[id].StageName}`
+    button.id = stageData.data[id].StageId
     button.onclick = function () {
       stageload(i - 1)
     }
@@ -48,9 +48,9 @@ async function stageload(stageid) {
 
 async function stageview(stageid, stageNumber) {
   const flag = await getFlag()
-  const stageID = stagedata.data[stageid].StageId
-  const stageName = stagedata.data[stageid].StageName
-  const stageIDs = stagedata.data[stageid].Stage
+  const stageID = stageData.data[stageid].StageId
+  const stageName = stageData.data[stageid].StageName
+  const stageIDs = stageData.data[stageid].Stage
   const stageiD = stageid
   stageNumber += 1
   const screen = document.getElementById('screen')

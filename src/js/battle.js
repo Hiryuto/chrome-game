@@ -14,7 +14,7 @@ const url = new URL(window.location.href)
 const stage = Number(url.searchParams.get('stage'))
 const stageid = Number(url.searchParams.get('stageid'))
 
-import { stagedata, item, levelTable } from '../asset/data.js'
+import { stageData, item, levelTable } from '../asset/data.js'
 
 import { getStatus, getFlag } from './global.js'
 
@@ -29,7 +29,7 @@ battle()
 
 async function battle() {
   const Status = await getStatus()
-  const Enemydata = stagedata.data[stage - 1].info[stageid]
+  const Enemydata = stageData.data[stage - 1].info[stageid]
   innerHTML(
     'screen',
     `<h2>敵の情報</h2><h3>${Enemydata.EnemyName}</h3><div class="box"><div class="statusbox" style="display: flex;justify-content: center;"><p>HP:${Enemydata.EnemyHp}</p><p>Atk:${Enemydata.EnemyAtk}</p></div><div class="statusbox" style="display: flex;justify-content: center;"><p>Def:${Enemydata.EnemyDef}</p><p>Spd:${Enemydata.EnemySpd}</p></div></div><h2>自分の情報</h2><div class="box"><div class="statusbox" style="display: flex;justify-content: center;"><p>HP:${Status.hp}</p><p>ATK:${Status.atk}</p></div><div class="statusbox" style="display: flex;justify-content: center;"><p>DEF:${Status.def}</p><p>SPD:${Status.spd}</p></div></div></div><button id="start">バトルを開始する</button><hr><button id="backquest">クエストページに戻る</button>`,
@@ -48,7 +48,7 @@ async function battle() {
 async function BattleStart(stagename, stageid) {
   const Status = await getStatus()
   const flag = await getFlag()
-  const Enemydata = stagedata.data[stage - 1].info[stageid]
+  const Enemydata = stageData.data[stage - 1].info[stageid]
   let nowenemyHp = Enemydata.EnemyHp
   let nowplayerHp = Status.hp
   const next_stage = stageid + 1
@@ -120,12 +120,12 @@ async function BattleStart(stagename, stageid) {
       if (flag.stageClear[stage - 1] == 10) {
         //もしするなら親ステージを解放する
         flag.stage++
-        stageMessage = `新しいステージ<br>「${stagedata.data[stage].StageName}」<br>が解放されました！`
+        stageMessage = `新しいステージ<br>「${stageData.data[stage].StageName}」<br>が解放されました！`
       } else {
         //しないなら子ステージを解放する
         flag.stageClear[stage - 1]++
         stageMessage = `新しいステージ<br>「${
-          stagedata.data[stage - 1].StageName
+          stageData.data[stage - 1].StageName
         } ${stage}-${next_stage}」<br>が解放されました！`
       }
     }
@@ -182,11 +182,11 @@ function innerHTML(id, message) {
  */
 async function pageload(nowenemyHp, nowplayerHp, log, stage, stageid) {
   const Status = await getStatus()
-  const Enemydata = stagedata.data[stage - 1].info[stageid]
+  const Enemydata = stageData.data[stage - 1].info[stageid]
   innerHTML(
     'screen',
     `<h1>${
-      stagedata.data[stage - 1].StageName
+      stageData.data[stage - 1].StageName
     } ${stage}-${stageid}</h1><h2>敵の状態</h2><h3 style="margin-bottom: 0px;">${
       Enemydata.EnemyName
     }</h3><h4>HP</h4><h5 style="margin:0px 0px">${nowenemyHp}/${
