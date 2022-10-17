@@ -1,22 +1,5 @@
 import { item } from '../asset/data.js'
-
-let GameInv
-
-/**
- * ゲームデータの同期
- */
-function sync() {
-  chrome.storage.local.get([`gameInv`], function (response) {
-    GameInv = JSON.parse(response.gameInv)
-  })
-}
-/**
- * 待機 ※await必須
- * @param {待つ時間} waitTime
- * @returns
- */
-const sleep = (waitTime) => new Promise((resolve) => setTimeout(resolve, waitTime))
-
+import { getGameInv } from './global.js'
 //メインページのボタンが押されるとメインページに移動する
 document.getElementById('mainpage').addEventListener('click', () => {
   window.location.href = 'index.html'
@@ -37,8 +20,7 @@ document.getElementById('others').addEventListener('click', () => {
 
 view(0)
 async function view(page) {
-  sync()
-  await sleep(500)
+  const gameInv = await getGameInv()
   const cl8 = document.getElementsByTagName('tbody')
   for (let i = 0; i < cl8.length; i++) {
     cl8[i].remove()
@@ -51,15 +33,14 @@ async function view(page) {
     // <td> 要素とテキストノードを作成し、テキストノードを
     // <td> の内容として、その <td> を表の行の末尾に追加
     if (item[page][i] != undefined) {
-      console.log('aaa' + GameInv[page][0][i])
+      console.log('aaa' + gameInv[page][0][i])
       let cell = document.createElement('td')
       console.log
       let cellText = document.createTextNode(item[page][i].name)
       cell.appendChild(cellText)
       row.appendChild(cell)
       cell = document.createElement('td')
-      console.log(GameInv[page][0][i])
-      cellText = document.createTextNode(GameInv[page][0][i])
+      cellText = document.createTextNode(gameInv[page][0][i])
       cell.appendChild(cellText)
       row.appendChild(cell)
       cell = document.createElement('td')
