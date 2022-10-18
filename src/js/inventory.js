@@ -21,9 +21,9 @@ document.getElementById('others').addEventListener('click', () => {
 view(0)
 async function view(page) {
   const gameInv = await getGameInv()
-  const cl8 = document.getElementsByTagName('tbody')
-  for (let i = 0; i < cl8.length; i++) {
-    cl8[i].remove()
+  const tbody = document.getElementsByTagName('tbody')
+  for (let i = 0; i < tbody.length; i++) {
+    tbody[i].remove()
   }
   const tbl = document.getElementsByTagName('table')[page]
   const tblBody = document.createElement('tbody')
@@ -53,8 +53,8 @@ async function view(page) {
     } else {
       return
     }
+    tbl.appendChild(tblBody)
   }
-  tbl.appendChild(tblBody)
 }
 
 //任意のタブにURLからリンクするための設定
