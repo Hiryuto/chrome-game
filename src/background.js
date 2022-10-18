@@ -27,7 +27,7 @@ chrome.runtime.onInstalled.addListener((details) => {
       stageClear: [1, 1],
     }
     let gameInvData = {
-      0: [{ 0: 1, 1: 5, 2: 10 }],
+      0: [{}],
       1: [{}],
       2: [{}],
       3: [{}],
