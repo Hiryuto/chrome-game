@@ -1,6 +1,6 @@
 import { skillData } from '../asset/data.js'
 
-import { getSkill } from './global.js'
+import { getSkill, getStatus } from './global.js'
 document.getElementById('mainpage').addEventListener('click', () => {
   window.location.href = 'index.html'
 })
@@ -47,6 +47,10 @@ async function viewSetup() {
     let descriptionText = document.createElement('p')
     descriptionText.innerHTML = skillData[i].description
     details.appendChild(descriptionText)
+    let setLevel = document.createElement('p')
+    setLevel.innerHTML = '設定可能レベル:Lv' + skillData[i].openlevel
+    setLevel.style = 'margin-top:10px'
+    details.appendChild(setLevel)
     let hr = document.createElement('hr')
     details.appendChild(hr)
     let button = document.createElement('button')
@@ -64,8 +68,14 @@ async function viewSetup() {
 }
 async function setSkill(skillIds) {
   const skill = await getSkill()
-  let result = window.confirm(skillData[skillIds].name + 'を設定してよろしいですか？')
+  let result = window.confirm(
+    skillData[skillIds].name + 'を設定してよろしいですか？\n設定可能レベル:Lv' + skillData[skillIds].openlevel,
+  )
   if (result) {
+    const Status = await getStatus()
+    if (skillData[skillIds].openlevel > Status.level) {
+      return alert('設定可能レベルに達していないため設定できませんでした。')
+    }
     let skill_splice = skill.setSkill
     skill_splice.splice(0, 1, skillIds)
     chrome.storage.local.set({
