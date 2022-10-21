@@ -62,7 +62,7 @@ function GethashID(hashIDName) {
   if (hashIDName) {
     //タブ設定
     $('.tab li')
-      .find('a')
+      .find('button')
       .each(function () {
         //タブ内のaタグ全てを取得
         const idName = $(this).attr('href') //タブ内のaタグのリンク名（例）#lunchの値を取得
@@ -80,7 +80,7 @@ function GethashID(hashIDName) {
 }
 
 //タブをクリックしたら
-$('.tab a').on('click', function () {
+$('.tab button').on('click', function () {
   var idName = $(this).attr('href') //タブ内のリンク名を取得
   GethashID(idName) //設定したタブの読み込みと
   return false //aタグを無効にする
