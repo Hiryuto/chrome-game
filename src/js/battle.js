@@ -4,7 +4,7 @@ const stageid = Number(url.searchParams.get('stageid'))
 
 import { stageData, item, levelTable } from '../asset/data.js'
 
-import { getStatus, getFlag, getGameInv } from './global.js'
+import { getStatus, getFlag, getGameInv, getSetting } from './global.js'
 
 /**
  * 待機 ※await必須
@@ -58,7 +58,8 @@ async function BattleStart(stagename, stageid) {
     if (nowplayerHp <= 0) {
       break
     }
-    await sleep(500)
+    let setting = await getSetting()
+    await sleep(setting.gameSpeed)
     //攻撃判定
     let random = Math.floor(Math.random() * (2 + 1 - 1)) + 1
     if (random == 2) {
