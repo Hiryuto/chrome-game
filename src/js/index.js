@@ -25,6 +25,9 @@ document.getElementById('skill').addEventListener('click', () => {
 document.getElementById('setting').addEventListener('click', () => {
   window.location.href = 'setting.html'
 })
+document.getElementById('equipment').addEventListener('click', () => {
+  window.location.href = 'equipment.html'
+})
 
 /**
  * @param {string} id HTMLのID
