@@ -22,6 +22,9 @@ document.getElementById('inv_button').addEventListener('click', () => {
 document.getElementById('skill').addEventListener('click', () => {
   window.location.href = 'skill.html'
 })
+document.getElementById('setting').addEventListener('click', () => {
+  window.location.href = 'setting.html'
+})
 
 /**
  * @param {string} id HTMLのID
