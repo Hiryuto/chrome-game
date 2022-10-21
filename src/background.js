@@ -35,9 +35,13 @@ chrome.runtime.onInstalled.addListener((details) => {
     let skillData = {
       setSkill: [0],
     }
+    let setting = {
+      gameSpeed:500
+    }
     chrome.storage.local.set({ flag: flagData })
     chrome.storage.local.set({ gameInv: gameInvData })
     chrome.storage.local.set({ gameGear: 'null' })
     chrome.storage.local.set({ skill: skillData })
+    chrome.storage.local.set({ setting: setting })
   }
 })
