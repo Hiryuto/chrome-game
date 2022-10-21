@@ -31,3 +31,11 @@ export async function getGameInv() {
   const gameInv = await chrome.storage.local.get('gameInv')
   return gameInv.gameInv
 }
+/**
+ * 設定のデータを返す関数
+ * @returns {Promise<{gameSpeed:Number}>}
+ */
+export async function getSetting() {
+  const setting = await chrome.storage.local.get('setting')
+  return setting.setting
+}
