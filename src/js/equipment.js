@@ -30,20 +30,16 @@ async function GethashID(hashIDName) {
         viewGear(1, 'Weapon')
         break
       case 'Helmet':
-        let nowHelmetName = item[2][`${nowGear[`${hashIDName}`]}`].name
-        document.querySelector(`#${hashIDName} .nowEquipment td`).innerHTML = nowHelmetName
+        viewGear(2, 'Helmet')
         break
       case 'Chestplate':
-        let nowChestplateName = item[2][`${nowGear[`${hashIDName}`]}`].name
-        document.querySelector(`#${hashIDName} .nowEquipment td`).innerHTML = nowChestplateName
+        viewGear(3, 'Chestplate')
         break
       case 'Boots':
-        let nowBootsName = item[2][`${nowGear[`${hashIDName}`]}`].name
-        document.querySelector(`#${hashIDName} .nowEquipment td`).innerHTML = nowBootsName
+        viewGear(4, 'Boots')
         break
       case 'Accessory':
-        let nowAccessoryName = item[2][`${nowGear[`${hashIDName}`]}`].name
-        document.querySelector(`#${hashIDName} .nowEquipment td`).innerHTML = nowAccessoryName
+        viewGear(5, 'Accessory')
         break
       default:
         document.querySelector(`#${hashIDName} .nowEquipment td`).innerHTML = 'エラーが発生しました'

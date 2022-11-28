@@ -39,7 +39,7 @@ chrome.runtime.onInstalled.addListener((details) => {
       gameSpeed: 500,
     }
     let gameGeardata = {
-      Helmet: 1,
+      Helmet: null,
       Chestplate: null,
       Boots: null,
       Weapon: null,
