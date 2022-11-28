@@ -23,7 +23,6 @@ async function GethashID(hashIDName) {
           $(hashIDName).addClass('is-active') //表示させたいエリアのタブリンク名をクリックしたら、表示エリアにis-activeクラスを追加
         }
       })
-    let nowGear = await getGear()
     hashIDName = hashIDName.replace(/#/g, '')
     switch (hashIDName) {
       case 'Weapon':
