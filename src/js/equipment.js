@@ -23,25 +23,27 @@ async function GethashID(hashIDName) {
           $(hashIDName).addClass('is-active') //表示させたいエリアのタブリンク名をクリックしたら、表示エリアにis-activeクラスを追加
         }
       })
-    hashIDName = hashIDName.replace(/#/g, '')
-    switch (hashIDName) {
+    let hashNameNoSharp = hashIDName.replace(/#/g, '') //URLのハッシュタグから「#」を消す
+    switch (
+      hashNameNoSharp //表示するカテゴリーによってメタデータの場所が違うので表示する処理
+    ) {
       case 'Weapon':
-        viewGear(1, 'Weapon')
+        nowviewGear(1, 'Weapon')
         break
       case 'Helmet':
-        viewGear(2, 'Helmet')
+        nowviewGear(2, 'Helmet')
         break
       case 'Chestplate':
-        viewGear(3, 'Chestplate')
+        nowviewGear(3, 'Chestplate')
         break
       case 'Boots':
-        viewGear(4, 'Boots')
+        nowviewGear(4, 'Boots')
         break
       case 'Accessory':
-        viewGear(5, 'Accessory')
+        nowviewGear(5, 'Accessory')
         break
-      default:
-        document.querySelector(`#${hashIDName} .nowEquipment td`).innerHTML = 'エラーが発生しました'
+      default: //例外処理
+        document.querySelector(`#${hashNameNoSharp} .nowEquipment td`).innerHTML = 'エラーが発生しました'
     }
   }
 }
@@ -61,12 +63,19 @@ $(window).on('load', function () {
   GethashID(hashName) //設定したタブの読み込み
 })
 
-async function viewGear(dataCategoryID, CategoryName) {
-  let nowGear = await getGear()
-  if (nowGear[`${CategoryName}`] == null) {
-    document.querySelector(`#${CategoryName} .nowEquipment td`).innerHTML = '装備していません'
-  } else {
+/**
+ * 装備中のものを表示する
+ * @param {メタデータのカテゴリーID} dataCategoryID
+ * @param {カテゴリーの名前} CategoryName
+ */
+async function nowviewGear(dataCategoryID, CategoryName) {
+  let nowGear = await getGear() //現在装備しているものを取得
+  if (nowGear[`${CategoryName}`] != null) {
+    //何かを装備していたら
     let nowGearName = item[`${dataCategoryID}`][`${nowGear[`${CategoryName}`]}`].name
     document.querySelector(`#${CategoryName} .nowEquipment td`).innerHTML = nowGearName
+  } else {
+    //もし何も装備していなかったら
+    document.querySelector(`#${CategoryName} .nowEquipment td`).innerHTML = '装備していません'
   }
 }
