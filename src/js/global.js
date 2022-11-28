@@ -39,3 +39,11 @@ export async function getSetting() {
   const setting = await chrome.storage.local.get('setting')
   return setting.setting
 }
+/**
+ * 装備のデータを返す関数
+ * @returns {Promise<{Helmet: Number,Chestplate: Number,Boots: Number,Weapon: Number,Accessory: Number,}>}
+ */
+export async function getGear() {
+  const gameGear = await chrome.storage.local.get('gameGear')
+  return gameGear.gameGear
+}

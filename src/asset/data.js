@@ -175,9 +175,18 @@ export const item = {
     0: { name: 'aaaa', buy: 1, sell: 0 },
   },
   2: {
-    category: 'armor',
+    category: 'helmet',
   },
   3: {
+    category: 'chestplate',
+  },
+  4: {
+    category: 'boots',
+  },
+  5: {
+    category: 'accessory',
+  },
+  999: {
     category: 'other',
   },
 }
