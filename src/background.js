@@ -31,6 +31,9 @@ chrome.runtime.onInstalled.addListener((details) => {
       1: [{}],
       2: [{}],
       3: [{}],
+      4: [{}],
+      5: [{}],
+      999: [{}],
     }
     let skillData = {
       setSkill: [0],
