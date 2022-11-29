@@ -53,16 +53,23 @@ async function viewSetup() {
     details.appendChild(setLevel)
     let hr = document.createElement('hr')
     details.appendChild(hr)
-    let button = document.createElement('button')
-    button.innerHTML = 'スキルをセットする'
-    button.id = i
-    console.log(i)
-    button.onclick = function () {
-      console.log(skill)
-      setSkill(i)
+    const Status = await getStatus()
+    if (skillData[i].openlevel > Status.level) {
+      let button = document.createElement('button')
+      button.innerHTML = '設定可能なレベルに達していません'
+      button.style = 'font-size:11px;color:grey;'
+      button.disabled = 'disabled'
+      details.appendChild(button)
+    } else {
+      let button = document.createElement('button')
+      button.innerHTML = 'スキルをセットする'
+      button.style = 'font-size:11px;'
+      button.id = i
+      button.onclick = function () {
+        setSkill(i)
+      }
+      details.appendChild(button)
     }
-    console.log(button.onclick)
-    details.appendChild(button)
     document.getElementById('SkillList').appendChild(details)
   }
 }
