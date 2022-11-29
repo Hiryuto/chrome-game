@@ -51,8 +51,10 @@ async function BattleStart(stagename, stageid) {
   //敵のHPが無くなるまでループする
   while (nowenemyHp > 0) {
     if (nowenemyHp < 0) {
+      //もし敵のHPが負の値になったら0にする
       nowenemyHp = 0
     } else if (nowplayerHp < 0) {
+      //もし自分のHPが負の値になったら0にする
       nowplayerHp = 0
     }
     if (nowplayerHp <= 0) {
@@ -61,6 +63,7 @@ async function BattleStart(stagename, stageid) {
     let setting = await getSetting()
     await sleep(setting.gameSpeed)
     //攻撃判定
+    // Math.floor(Math.random() * (max + 1 - min)) + min
     let random = Math.floor(Math.random() * (2 + 1 - 1)) + 1
     if (random == 2) {
       atk = Math.ceil(Status.atk / (1 + Enemydata.EnemyDef / 100))
@@ -123,7 +126,6 @@ async function BattleStart(stagename, stageid) {
     leftexp = levelTable.level[Status.level - 1] - nowexp
 
     //ドロップアイテム処理
-    //console.log(Object.keys(Enemydata.drop[5]).length)
     if (Object.keys(Enemydata.drop).length >= 1) {
       for (let i = 0; i < Object.keys(Enemydata.drop).length; i++) {
         const chance = Enemydata.drop[i].chance
@@ -135,12 +137,9 @@ async function BattleStart(stagename, stageid) {
           //* campaign
           const gameInv = await getGameInv()
           const category = Enemydata.drop[i].category
-          console.log(gameInv[category][0][Enemydata.drop[i].id])
           if (gameInv[category][0][Enemydata.drop[i].id] == undefined) {
-            console.log('nai')
             gameInv[category][0][Enemydata.drop[i].id] = pieces
           } else {
-            console.log('aru')
             gameInv[category][0][Enemydata.drop[i].id] += pieces
           }
           if (i == 0) {
@@ -155,7 +154,6 @@ async function BattleStart(stagename, stageid) {
       }
     }
     //出力
-    console.log(itemLog)
     if (itemLog == undefined) {
       itemLog = 'なし'
     }
@@ -184,12 +182,12 @@ async function BattleStart(stagename, stageid) {
     )
     document.getElementById('mainpage').style.display = 'inline-block'
     document.getElementById('br').style.display = 'block'
+    document.getElementById('retry').addEventListener('click', () => {
+      return BattleStart(stagename, stageid)
+    })
   }
   document.getElementById('backquest').addEventListener('click', () => {
     return (window.location.href = 'mainquest.html')
-  })
-  document.getElementById('retry').addEventListener('click', () => {
-    return BattleStart(stagename, stageid)
   })
 }
 
