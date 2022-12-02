@@ -169,6 +169,10 @@ export const item = {
     0: { name: 'デバッグ用', buy: 0, sell: 0 },
     1: { name: 'テストアイテム', buy: 5, sell: 2 },
     2: { name: 'test', buy: 4, sell: 2 },
+    3: { name: '3', buy: 4, sell: 2 },
+    4: { name: '4', buy: 4, sell: 2 },
+    5: { name: '5', buy: 4, sell: 2 },
+    6: { name: '6', buy: 4, sell: 2 },
   },
   1: {
     category: 'weapon',
