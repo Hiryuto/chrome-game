@@ -12,48 +12,79 @@ document.getElementById('weapons').addEventListener('click', () => {
   view(1)
 })
 document.getElementById('armors').addEventListener('click', () => {
-  view(2)
+  view('armors')
 })
 document.getElementById('others').addEventListener('click', () => {
-  view(3)
+  view(999)
 })
 
 view(0)
 async function view(page) {
   const gameInv = await getGameInv()
   const tbody = document.getElementsByTagName('tbody')
-  for (let i = 0; i < tbody.length; i++) {
-    tbody[i].remove()
+  let count = tbody.length
+  for (let i = 0; i < count; i++) {
+    tbody[0].remove()
   }
-  const tbl = document.getElementsByTagName('table')[page]
-  const tblBody = document.createElement('tbody')
-  for (let i = 0; i < 3; i++) {
-    // 表の行を作成
-    const row = document.createElement('tr')
-    // <td> 要素とテキストノードを作成し、テキストノードを
-    // <td> の内容として、その <td> を表の行の末尾に追加
-    if (item[page][i] != undefined) {
-      if (gameInv[page][0][i] != undefined) {
-        console.log('aaa' + gameInv[page][0][i])
-        let cell = document.createElement('td')
-        console.log
-        let cellText = document.createTextNode(item[page][i].name)
-        cell.appendChild(cellText)
-        row.appendChild(cell)
-        cell = document.createElement('td')
-        cellText = document.createTextNode(gameInv[page][0][i])
-        cell.appendChild(cellText)
-        row.appendChild(cell)
-        cell = document.createElement('td')
-        cellText = document.createTextNode(item[page][i].sell)
-        cell.appendChild(cellText)
-        row.appendChild(cell)
-        tblBody.appendChild(row)
+  if (page == 'armors') {
+    console.log('armors')
+    for (let i = 2; i <= 4; i++) {
+      let key = Object.entries(gameInv[i][0])
+      for (let j = 0; j < key.length; j++) {
+        if (item[0][`${key[i][0]}`] != undefined) {
+          if (gameInv[0][0][j] != undefined) {
+            const row = document.createElement('tr')
+            const tbl = document.getElementsByTagName('table')[2]
+            const tblBody = document.createElement('tbody')
+            let cell = document.createElement('td')
+            let cellText = document.createTextNode(item[0][`${key[i][0]}`].name)
+            cell.appendChild(cellText)
+            row.appendChild(cell)
+            cell = document.createElement('td')
+            cellText = document.createTextNode(gameInv[i][0][`${key[i][0]}`])
+            cell.appendChild(cellText)
+            row.appendChild(cell)
+            cell = document.createElement('td')
+            cellText = document.createTextNode(item[0][`${key[i][0]}`].sell)
+            cell.appendChild(cellText)
+            row.appendChild(cell)
+            tblBody.appendChild(row)
+            tbl.appendChild(tblBody)
+          }
+        }
       }
-    } else {
-      return
     }
-    tbl.appendChild(tblBody)
+  } else {
+    const tbl = document.getElementsByTagName('table')[page]
+    const tblBody = document.createElement('tbody')
+    let key = Object.entries(gameInv[page][0])
+    for (let i = 0; i < key.length; i++) {
+      // 表の行を作成
+      const row = document.createElement('tr')
+      // <td> 要素とテキストノードを作成し、テキストノードを
+      // <td> の内容として、その <td> を表の行の末尾に追加
+      if (item[page][`${key[i][0]}`] != undefined) {
+        if (gameInv[page][0][`${key[i][0]}`] != undefined) {
+          let cell = document.createElement('td')
+          let cellText = document.createTextNode(item[page][`${key[i][0]}`].name)
+          console.log(item[page][i].name)
+          cell.appendChild(cellText)
+          row.appendChild(cell)
+          cell = document.createElement('td')
+          cellText = document.createTextNode(gameInv[page][0][`${key[i][0]}`])
+          cell.appendChild(cellText)
+          row.appendChild(cell)
+          cell = document.createElement('td')
+          cellText = document.createTextNode(item[page][`${key[i][0]}`].sell)
+          cell.appendChild(cellText)
+          row.appendChild(cell)
+          tblBody.appendChild(row)
+        }
+      } else {
+        return
+      }
+      tbl.appendChild(tblBody)
+    }
   }
 }
 
