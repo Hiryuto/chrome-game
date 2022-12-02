@@ -25,7 +25,7 @@ export async function getSkill() {
 
 /**
  * インベントリのデータを返す関数
- * @returns {Promise<{0: [{[key:Number]:Number}],1: [{[key:Number]:Number}],2: [{[key:Number]:Number}],3: [{[key:Number]:Number}],}>}
+ * @returns {Promise<{0: [{[key:Number]:Number}],1: [{[key:Number]:Number}],2: [{[key:Number]:Number}],3: [{[key:Number]:Number}],4: [{[key:Number]:Number}],5: [{[key:Number]:Number}],999: [{[key:Number]:Number}],}>}
  */
 export async function getGameInv() {
   const gameInv = await chrome.storage.local.get('gameInv')
