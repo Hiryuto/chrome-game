@@ -28,6 +28,17 @@ document.getElementById('setting').addEventListener('click', () => {
 document.getElementById('equipment').addEventListener('click', () => {
   window.location.href = 'equipment.html'
 })
+//-以下未作成-
+document.getElementById('shop').addEventListener('click', () => {
+  window.location.href = '.html'
+})
+document.getElementById('news').addEventListener('click', () => {
+  window.location.href = '.html'
+})
+document.getElementById('help').addEventListener('click', () => {
+  window.location.href = '.html'
+})
+//----------
 
 /**
  * @param {string} id HTMLのID
