@@ -70,12 +70,35 @@ $(window).on('load', function () {
  */
 async function nowviewGear(dataCategoryID, CategoryName) {
   let nowGear = await getGear() //現在装備しているものを取得
-  if (nowGear[`${CategoryName}`] != null) {
+  if (CategoryName == 'Accessory') {
+    //もしアクセサリーを見ているなら
+    let nowAccessoryName1
+    let nowAccessoryName2
+    if (item[`${dataCategoryID}`][`${nowGear['Accessory'][0]}`] != undefined && nowGear['Accessory'][0] != undefined) {
+      //もしアクセサリースロットの1番目に[アイテムIDが存在する]かつ[インベントリデータに存在するなら]
+      nowAccessoryName1 = item[`${dataCategoryID}`][`${nowGear['Accessory'][0]}`].name
+      if (
+        item[`${dataCategoryID}`][`${nowGear['Accessory'][1]}`] != undefined &&
+        nowGear['Accessory'][1] != undefined
+      ) {
+        //もしアクセサリースロットの2番目に[アイテムIDが存在する]かつ[インベントリデータに存在するなら]
+        nowAccessoryName2 = item[`${dataCategoryID}`][`${nowGear['Accessory'][1]}`].name
+      } else {
+        nowAccessoryName2 = '装備していません'
+      }
+    } else {
+      nowAccessoryName1 = '装備していません'
+      nowAccessoryName2 = '装備していません'
+    }
+    //装備状況を表示する
+    document.querySelectorAll(`#${CategoryName} .nowEquipment tbody tr td`)[0].innerHTML = nowAccessoryName1
+    document.querySelectorAll(`#${CategoryName} .nowEquipment tbody tr td`)[1].innerHTML = nowAccessoryName2
+  } else if (nowGear[`${CategoryName}`] != null) {
     //何かを装備していたら
     let nowGearName = item[`${dataCategoryID}`][`${nowGear[`${CategoryName}`]}`].name
-    document.querySelector(`#${CategoryName} .nowEquipment td`).innerHTML = nowGearName
+    document.querySelector(`#${CategoryName} .nowEquipment tbody tr td`).innerHTML = nowGearName
   } else {
     //もし何も装備していなかったら
-    document.querySelector(`#${CategoryName} .nowEquipment td`).innerHTML = '装備していません'
+    document.querySelector(`#${CategoryName} .nowEquipment tbody tr td`).innerHTML = '装備していません'
   }
 }
