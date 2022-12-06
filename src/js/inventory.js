@@ -27,34 +27,23 @@ async function view(page) {
     tbody[0].remove()
   }
   if (page == 'armors') {
-    console.log('armors')
-    for (let i = 2; i <= 4; i++) {
+    //装備だった時
+    for (let i = 2; i <= 5; i++) {
+      //装備のカテゴリーの数繰り返す
       let key = Object.entries(gameInv[i][0])
       for (let j = 0; j < key.length; j++) {
-        if (item[0][`${key[i][0]}`] != undefined) {
-          if (gameInv[0][0][j] != undefined) {
-            const row = document.createElement('tr')
-            const tbl = document.getElementsByTagName('table')[2]
-            const tblBody = document.createElement('tbody')
-            let cell = document.createElement('td')
-            let cellText = document.createTextNode(item[0][`${key[i][0]}`].name)
-            cell.appendChild(cellText)
-            row.appendChild(cell)
-            cell = document.createElement('td')
-            cellText = document.createTextNode(gameInv[i][0][`${key[i][0]}`])
-            cell.appendChild(cellText)
-            row.appendChild(cell)
-            cell = document.createElement('td')
-            cellText = document.createTextNode(item[0][`${key[i][0]}`].sell)
-            cell.appendChild(cellText)
-            row.appendChild(cell)
-            tblBody.appendChild(row)
-            tbl.appendChild(tblBody)
-          }
+        //カテゴリー内にあるアイテムの種類の回数繰り返す
+        if (item[i][`${key[j][0]}`] != undefined) {
+          //itemデータにアイテムIDが存在するかのチェック
+          viewTable(2, item[i][`${key[j][0]}`].name, gameInv[i][0][`${key[j][0]}`], item[i][`${key[j][0]}`].sell)
+        } else {
+          //itemデータにアイテムIDがない場合
+          viewTable(2, 'エラーが発生しました', '', '')
         }
       }
     }
   } else {
+    //装備以外の場合
     const tbl = document.getElementsByTagName('table')[page]
     const tblBody = document.createElement('tbody')
     let key = Object.entries(gameInv[page][0])
@@ -64,22 +53,15 @@ async function view(page) {
       // <td> 要素とテキストノードを作成し、テキストノードを
       // <td> の内容として、その <td> を表の行の末尾に追加
       if (item[page][`${key[i][0]}`] != undefined) {
-        if (gameInv[page][0][`${key[i][0]}`] != undefined) {
-          let cell = document.createElement('td')
-          let cellText = document.createTextNode(item[page][`${key[i][0]}`].name)
-          console.log(item[page][i].name)
-          cell.appendChild(cellText)
-          row.appendChild(cell)
-          cell = document.createElement('td')
-          cellText = document.createTextNode(gameInv[page][0][`${key[i][0]}`])
-          cell.appendChild(cellText)
-          row.appendChild(cell)
-          cell = document.createElement('td')
-          cellText = document.createTextNode(item[page][`${key[i][0]}`].sell)
-          cell.appendChild(cellText)
-          row.appendChild(cell)
-          tblBody.appendChild(row)
-        }
+        //↓よくわからないからコメントアウトしている
+        // if (gameInv[page][0][`${key[i][0]}`] != undefined) {
+        viewTable(
+          page,
+          item[page][`${key[i][0]}`].name,
+          gameInv[page][0][`${key[i][0]}`],
+          item[page][`${key[i][0]}`].sell,
+        )
+        // }
       } else {
         return
       }
@@ -124,3 +106,30 @@ $(window).on('load', function () {
   var hashName = location.hash //リンク元の指定されたURLのハッシュタグを取得
   GethashID(hashName) //設定したタブの読み込み
 })
+
+/**
+ * インベントリのテーブルを描画する関数
+ * @param {Number} CategoryId
+ * @param {object} itemName
+ * @param {object} itemCount
+ * @param {object} itemSellValue
+ */
+function viewTable(CategoryId, itemName, itemCount, itemSellValue) {
+  const row = document.createElement('tr')
+  const tbl = document.getElementsByTagName('table')[CategoryId]
+  const tblBody = document.createElement('tbody')
+  let cell = document.createElement('td')
+  let cellText = document.createTextNode(itemName)
+  cell.appendChild(cellText)
+  row.appendChild(cell)
+  cell = document.createElement('td')
+  cellText = document.createTextNode(itemCount)
+  cell.appendChild(cellText)
+  row.appendChild(cell)
+  cell = document.createElement('td')
+  cellText = document.createTextNode(itemSellValue)
+  cell.appendChild(cellText)
+  row.appendChild(cell)
+  tblBody.appendChild(row)
+  tbl.appendChild(tblBody)
+}
