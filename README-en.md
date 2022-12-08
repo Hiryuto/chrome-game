@@ -9,4 +9,4 @@ It works by reading the "src" folder in the source code.
 
 ## license
 
-This program is released under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.ja).
+This program is released under [CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/deed.en).
