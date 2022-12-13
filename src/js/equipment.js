@@ -1,5 +1,7 @@
-import { getGear } from './global.js'
+import { getGear, getGameInv } from './global.js'
 import { item } from '../asset/data.js'
+
+var Tablelist
 
 document.getElementById('mainpage').addEventListener('click', () => {
   window.location.href = 'index.html'
@@ -59,7 +61,12 @@ $('.tab button').on('click', function () {
 $(window).on('load', function () {
   $('.tab li:first-of-type').addClass('active') //最初のliにactiveクラスを追加
   $('.area:first-of-type').addClass('is-active') //最初の.areaにis-activeクラスを追加
-  var hashName = '#Helmet' //リンク元の指定されたURLのハッシュタグを取得
+  var hashName = location.hash //リンク元の指定されたURLのハッシュタグを取得
+  console.log(hashName)
+  if (!hashName) {
+    console.log(hashName)
+    hashName = '#Helmet'
+  }
   GethashID(hashName) //設定したタブの読み込み
 })
 
@@ -91,8 +98,8 @@ async function nowviewGear(dataCategoryID, CategoryName) {
       nowAccessoryName2 = '装備していません'
     }
     //装備状況を表示する
-    document.querySelectorAll(`#${CategoryName} .nowEquipment tbody tr td`)[0].innerHTML = nowAccessoryName1
-    document.querySelectorAll(`#${CategoryName} .nowEquipment tbody tr td`)[1].innerHTML = nowAccessoryName2
+    document.querySelectorAll(`#${CategoryName} .nowEquipment tbody tr td`)[1].innerHTML = nowAccessoryName1
+    document.querySelectorAll(`#${CategoryName} .nowEquipment tbody tr td`)[3].innerHTML = nowAccessoryName2
   } else if (nowGear[`${CategoryName}`] != null) {
     //何かを装備していたら
     let nowGearName = item[`${dataCategoryID}`][`${nowGear[`${CategoryName}`]}`].name
@@ -101,4 +108,144 @@ async function nowviewGear(dataCategoryID, CategoryName) {
     //もし何も装備していなかったら
     document.querySelector(`#${CategoryName} .nowEquipment tbody tr td`).innerHTML = '装備していません'
   }
+  view(dataCategoryID, CategoryName)
+}
+
+async function view(id, CategoryName) {
+  Tablelist = document.createElement('tbody')
+  const gameInv = await getGameInv()
+  const tbody = document.querySelectorAll('.is-active table tbody')
+  const tbl = document.querySelectorAll('.is-active table')[1]
+  if (tbody.length > 1) {
+    for (let i = tbody.length; i >= 1; i--) {
+      tbody[1].remove()
+    }
+  }
+
+  let InvCount = Object.keys(gameInv[`${id}`][0]).length
+  console.log(CategoryName)
+  let itemID = Object.keys(gameInv[id][0])
+  let itemCount = Object.values(gameInv[id][0])
+  for (let i = 1; i <= InvCount; i++) {
+    if (item[`${id}`][`${itemID[`${i - 1}`]}`] != undefined) {
+      //itemデータにアイテムIDが存在するかのチェック
+      viewTable(item[`${id}`][`${itemID[`${i - 1}`]}`].name, itemCount[`${i - 1}`], CategoryName, itemID[`${i - 1}`])
+    } else {
+      //itemデータにアイテムIDがない場合
+      viewTable('内部ﾃﾞｰﾀの破損', 'ｴﾗｰ', CategoryName, '')
+    }
+  }
+
+  //サンプル
+
+  // for (let i = 2; i <= 5; i++) {
+  //   //装備のカテゴリーの数繰り返す
+  //   let key = Object.entries(gameInv[i][0])
+  //   for (let j = 0; j < key.length; j++) {
+  //     //カテゴリー内にあるアイテムの種類の回数繰り返す
+  //     if (item[`${id}`][`${key[j][0]}`] != undefined) {
+  //       //itemデータにアイテムIDが存在するかのチェック
+  //       viewTable(item[i][`${key[j][0]}`].name, gameInv[i][0][`${key[j][0]}`], item[i][`${key[j][0]}`].sell)
+  //     } else {
+  //       //itemデータにアイテムIDがない場合
+  //       viewTable('エラーが発生しました', '', '')
+  //     }
+  //   }
+  // }
+
+  tbl.appendChild(Tablelist)
+}
+
+/**
+ * インベントリのテーブルを描画する関数
+ * @param {object} itemName アイテムの名前
+ * @param {object} itemCount アイテムの数
+ * @param {string} itemCategoryName アイテムのカテゴリー名
+ * @param {number} itemID アイテムのID
+ * @param {number} itemCategoryID アイテムのカテゴリーID
+ */
+function viewTable(itemName, itemCount, itemCategoryName, itemID, itemCategoryID) {
+  const row = document.createElement('tr')
+  const tbl = document.querySelectorAll('.is-active table')[1]
+  let cell = document.createElement('td')
+  cell.style = 'font-size:3px'
+  let cellText = document.createTextNode(itemName)
+
+  let button = document.createElement('button')
+
+  cell.appendChild(cellText)
+  row.appendChild(cell)
+  cell = document.createElement('td')
+  cellText = document.createTextNode(itemCount)
+  cell.appendChild(cellText)
+  row.appendChild(cell)
+  cell = document.createElement('td')
+  if (itemCategoryName == 'Accessory') {
+    button.innerText = '装備する(A)'
+    button.onclick = function () {
+      saveGear(itemCategoryName, itemCategoryID, itemID, itemCount, '0')
+    }
+    button.style = 'font-size:3px;margin:2.5px'
+    cell.appendChild(button)
+    let buttonB = document.createElement('button')
+    buttonB.innerText = '装備する(B)'
+    buttonB.onclick = function () {
+      saveGear(itemCategoryName, itemCategoryID, itemID, itemCount, '1')
+    }
+    buttonB.style = 'font-size:3px;margin:2.5px'
+    cell.appendChild(buttonB)
+  } else {
+    button.innerText = '装備する'
+    button.onclick = function () {
+      saveGear(itemCategoryName, itemCategoryID, itemID, itemCount, '0')
+    }
+    button.style = 'font-size:3px'
+    cell.appendChild(button)
+  }
+  row.appendChild(cell)
+  Tablelist.appendChild(row)
+  console.log(Tablelist)
+}
+
+async function saveGear(saveCategoryName, saveCategoryID, saveItemID, saveItemCount, slotID) {
+  var nowGear = await getGear()
+  if (saveCategoryName == 'Accessory') {
+    if (saveItemID) {
+      if (saveItemCount != 1) {
+        console.log(nowGear)
+        nowGear[`${saveCategoryName}`][`${slotID}`] = saveItemID
+        chrome.storage.local.set({ gameGear: nowGear })
+      } else {
+        switch (slotID) {
+          case '0':
+            if (nowGear.Accessory[1] != saveItemID) {
+              nowGear[`${saveCategoryName}`][`${slotID}`] = saveItemID
+              chrome.storage.local.set({ gameGear: nowGear })
+            } else {
+              return alert('アクセサリーの数がありません')
+            }
+            break
+          case '1':
+            if (nowGear.Accessory[0] != saveItemID) {
+              nowGear[`${saveCategoryName}`][`${slotID}`] = saveItemID
+              chrome.storage.local.set({ gameGear: nowGear })
+            } else {
+              return alert('アクセサリーの数がありません')
+            }
+            break
+        }
+      }
+    } else {
+      return alert('エラーが発生しました')
+    }
+  } else {
+    if (saveItemID) {
+      nowGear[`${saveCategoryName}`] = saveItemID
+      chrome.storage.local.set({ gameGear: nowGear })
+    } else {
+      return alert('エラーが発生しました')
+    }
+  }
+  location.hash = `${saveCategoryName}`
+  location.reload()
 }
