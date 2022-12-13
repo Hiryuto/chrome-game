@@ -1,6 +1,9 @@
 import { item } from '../asset/data.js'
 import { getGameInv } from './global.js'
 //メインページのボタンが押されるとメインページに移動する
+
+var Tablelist
+
 document.getElementById('mainpage').addEventListener('click', () => {
   window.location.href = 'index.html'
 })
@@ -19,12 +22,20 @@ document.getElementById('others').addEventListener('click', () => {
 })
 
 view(0)
+
 async function view(page) {
+  Tablelist = document.createElement('tbody')
   const gameInv = await getGameInv()
-  const tbody = document.getElementsByTagName('tbody')
-  let count = tbody.length
-  for (let i = 0; i < count; i++) {
-    tbody[0].remove()
+  const tbody = document.querySelectorAll('.is-active table tbody')
+  const tbl = document.querySelectorAll('.is-active table')[0]
+  if (tbody.length != 0) {
+    let count = tbody[0].childElementCount
+    count--
+    for (let i = 0; i < count; i++) {
+      if (tbody[i]) {
+        tbody[i].remove()
+      }
+    }
   }
   if (page == 'armors') {
     //装備だった時
@@ -42,6 +53,7 @@ async function view(page) {
         }
       }
     }
+    return tbl.appendChild(Tablelist)
   } else {
     //装備以外の場合
     const tbl = document.getElementsByTagName('table')[page]
@@ -114,6 +126,7 @@ $(window).on('load', function () {
  * @param {object} itemCount
  * @param {object} itemSellValue
  */
+
 function viewTable(CategoryId, itemName, itemCount, itemSellValue) {
   const row = document.createElement('tr')
   const tbl = document.getElementsByTagName('table')[CategoryId]
@@ -130,6 +143,5 @@ function viewTable(CategoryId, itemName, itemCount, itemSellValue) {
   cellText = document.createTextNode(itemSellValue)
   cell.appendChild(cellText)
   row.appendChild(cell)
-  tblBody.appendChild(row)
-  tbl.appendChild(tblBody)
+  Tablelist.appendChild(row)
 }
