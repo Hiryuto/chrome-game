@@ -33,7 +33,7 @@ document.getElementById('shop').addEventListener('click', () => {
   window.location.href = '.html'
 })
 document.getElementById('news').addEventListener('click', () => {
-  window.location.href = '.html'
+  window.location.href = 'news.html'
 })
 document.getElementById('help').addEventListener('click', () => {
   window.location.href = '.html'
