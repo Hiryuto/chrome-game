@@ -1,4 +1,4 @@
-import { getStatus } from './global.js'
+import { getNewsLatestReadTime, getStatus } from './global.js'
 //chrome.storageから変数を取得
 const Status = await getStatus()
 //HTMLに変数を設定
@@ -9,6 +9,10 @@ textContent('atk', Status.atk)
 textContent('def', Status.def)
 textContent('spd', Status.spd)
 textContent('coin', Status.coin)
+
+const newsIndex = await (
+  await fetch('https://raw.githubusercontent.com/Hiryuto/chrome-rpg-notification/dev/notification-index.json', { cache: 'no-cache' })
+).json()
 
 document.getElementById('quest_button').addEventListener('click', () => {
   window.location.href = 'quest.html'
@@ -28,7 +32,7 @@ document.getElementById('setting').addEventListener('click', () => {
 document.getElementById('equipment').addEventListener('click', () => {
   window.location.href = 'equipment.html'
 })
-//-以下未作成-
+//-以下未完成-
 document.getElementById('shop').addEventListener('click', () => {
   window.location.href = '.html'
 })
@@ -55,3 +59,12 @@ function textContent(id, message) {
 function innerHTML(id, message) {
   document.getElementById(id).innerHTML = `${message}`
 }
+
+async function newNewsMark() {
+  const newNewsTime = await getNewsLatestReadTime()
+  const lastReadNewsTime = newNewsTime.lastReadNews
+  if (newsIndex.lastUpdate !== lastReadNewsTime) {
+    document.getElementById('news').className = 'new'
+  }
+}
+newNewsMark()
