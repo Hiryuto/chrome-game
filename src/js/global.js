@@ -47,3 +47,11 @@ export async function getGear() {
   const gameGear = await chrome.storage.local.get('gameGear')
   return gameGear.gameGear
 }
+/**
+ * 最後に見た最新のお知らせの時刻を返す関数
+ * @returns {Promise<{readLatest: Number,}>}
+ */
+export async function getNewsLatestReadTime() {
+  const lastReadNewsTime = await chrome.storage.local.get('lastReadNewsTime')
+  return lastReadNewsTime.lastReadNewsTime
+}

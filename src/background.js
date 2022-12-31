@@ -53,11 +53,15 @@ chrome.runtime.onInstalled.addListener((details) => {
       Weapon: null,
       Accessory: [null, null],
     }
+    let lastReadNews = {
+      lastReadNews: 'null',
+    }
     chrome.storage.local.set({ status: statusData })
     chrome.storage.local.set({ flag: flagData })
     chrome.storage.local.set({ gameInv: gameInvData })
     chrome.storage.local.set({ gameGear: gameGeardata })
     chrome.storage.local.set({ skill: skillData })
     chrome.storage.local.set({ setting: setting })
+    chrome.storage.local.set({ lastReadNewsTime: lastReadNews })
   }
 })
