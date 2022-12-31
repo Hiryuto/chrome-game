@@ -45,6 +45,28 @@
         padding: 0;
         font-size: 15px;
       }
+      .new {
+        /* ボタンっぽいデザインを入れる */
+        width: 70px;
+        padding: 3px 5px;
+        border: solid 1px #000;
+        border-radius: 5px;
+        position: relative; /* 基準値とする */
+        margin-top: 5px;
+      }
+      .new::after {
+        content: '！'; /* 表示する記号や文字を入れる（1文字） */
+        position: absolute; /* 相対位置を指定 */
+        top: -10px; /* 表示位置を上から-10pxの位置にする */
+        right: -10px; /* 表示位置を右から-10pxの位置にする */
+        color: #fff; /* 文字色を白色に指定 */
+        line-height: 20px; /* 行の高さを指定 */
+        font-weight: bold; /* 太文字にする */
+        text-align: center; /* 文字を中央揃えにする */
+        width: 20px; /* 幅を20pxに指定 */
+        background: #f00; /* 背景色を赤に指定 */
+        border-radius: 50%; /* 角丸を50%に指定 */
+      }
     </style>
   </head>
 
