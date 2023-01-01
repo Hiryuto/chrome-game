@@ -1,3 +1,5 @@
+import { getNewsLatestReadTime } from './global.js'
+
 document.getElementById('mainpage').addEventListener('click', () => {
   window.location.href = 'index.html'
 })
@@ -7,6 +9,7 @@ const newsIndex = await (
 ).json()
 
 function load() {
+  updateLastReadNewsTime()
   const main = document.getElementById('screen')
   const newsList = document.createElement('div')
   newsList.className = 'newsList'
@@ -223,3 +226,11 @@ function pageEvent(page, htmlElement) {
 }
 
 window.onload = load()
+
+async function updateLastReadNewsTime() {
+  const lastReadNews = await getNewsLatestReadTime()
+  lastReadNews.lastReadNews = newsIndex.lastUpdate
+  chrome.storage.local.set({
+    lastReadNewsTime: lastReadNews,
+  })
+}
