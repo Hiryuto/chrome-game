@@ -54,7 +54,7 @@ chrome.runtime.onInstalled.addListener((details) => {
       Accessory: [null, null],
     }
     let lastReadNews = {
-      lastReadNews: 'null',
+      lastReadNews: '',
     }
     chrome.storage.local.set({ status: statusData })
     chrome.storage.local.set({ flag: flagData })
