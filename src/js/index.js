@@ -11,7 +11,13 @@ textContent('spd', Status.spd)
 textContent('coin', Status.coin)
 
 const newsIndex = await (
-  await fetch('https://raw.githubusercontent.com/Hiryuto/chrome-rpg-notification/dev/notification-index.json', { cache: 'no-cache' })
+  await fetch('https://raw.githubusercontent.com/Hiryuto/chrome-rpg-notification/dev/notification-index.json', {
+    method: 'GET',
+    headers: {
+      'cache-control': 'max-age=0',
+      Expires: 'Mon, 26 Jul 1997 05:00:00 GMT',
+    },
+  })
 ).json()
 
 document.getElementById('quest_button').addEventListener('click', () => {
