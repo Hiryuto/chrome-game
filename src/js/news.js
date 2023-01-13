@@ -5,7 +5,13 @@ document.getElementById('mainpage').addEventListener('click', () => {
 })
 
 const newsIndex = await (
-  await fetch('https://raw.githubusercontent.com/Hiryuto/chrome-rpg-notification/dev/notification-index.json', { cache: 'no-cache' })
+  await fetch('https://raw.githubusercontent.com/Hiryuto/chrome-rpg-notification/dev/notification-index.json', {
+    method: 'GET',
+    headers: {
+      'cache-control': 'max-age=0',
+      Expires: 'Mon, 26 Jul 1997 05:00:00 GMT',
+    },
+  })
 ).json()
 
 function load() {
@@ -27,11 +33,12 @@ function load() {
       if (newsCount < 5) {
         const newsContent = document.createElement('div')
         newsContent.className = 'newsContent'
-        newsContent.addEventListener('click', function () {
-          console.log(`${newsIndex.index[i].categoryId}    ${newsIndex.index[i].notificationId}`)
-        })
+        const titleBox = document.createElement('div')
+        titleBox.className = 'title-box'
         const title = document.createElement('h1')
-        title.innerHTML = newsIndex.index[i].title
+        title.innerHTML = newsIndex.index[i].title + '  [' + newsIndex.index[i].category + ']'
+        title.className = 'title'
+        titleBox.appendChild(title)
         const lastUpdate = document.createElement('p')
         lastUpdate.className = 'date'
         if (newsIndex.index[i].updateTime == 'TIMESTAMP') {
@@ -40,11 +47,12 @@ function load() {
           const lastUpdateTime = new Date(newsIndex.index[i].updateTime * 1000)
           lastUpdate.innerHTML = `${lastUpdateTime.toLocaleDateString()} ${lastUpdateTime.toLocaleTimeString('en-US', { timeStyle: 'short' })}`
         }
+        titleBox.appendChild(lastUpdate)
         const description = document.createElement('p')
         description.innerHTML = newsIndex.index[i].description
         description.className = 'descriptionShort'
         const hr = document.createElement('hr')
-        newsContent.append(title)
+        newsContent.append(titleBox)
         newsContent.append(lastUpdate)
         newsContent.append(hr)
         if (newsIndex.index[i].more == true) {
@@ -120,43 +128,45 @@ function load() {
     }
     console.log(newsIndex)
   }
-  document.getElementById('etc').addEventListener('keydown', function (event) {
-    if (event.key === 'Enter') {
-      if (document.getElementById('etc').value != '') {
-        if (/[0-9]/.test(document.getElementById('etc').value)) {
-          switch (document.getElementById('etc').value) {
-            case '1':
-            case '2':
-            case '3':
-            case document.querySelectorAll('.listNumber button')[document.querySelectorAll('.listNumber button').length - 1].innerHTML:
-              alert('ボタンで選択してください')
-              return (document.getElementById('etc').value = '')
-
-            default:
-              if (
-                document.querySelectorAll('.listNumber button')[document.querySelectorAll('.listNumber button').length - 1].innerHTML >
-                  document.getElementById('etc').value &&
-                1 < document.getElementById('etc').value
-              ) {
-                pageEvent(document.getElementById('etc').value, null)
-                document.getElementById('etc').value = ''
-                const nowDisabled = document.querySelectorAll('[disabled]')
-                for (let i = 0; i < nowDisabled.length; i++) {
-                  nowDisabled[0].disabled = false
-                }
-              } else {
-                alert('存在しないページです')
+  if (document.getElementById('etc')) {
+    document.getElementById('etc').addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        if (document.getElementById('etc').value != '') {
+          if (/[0-9]/.test(document.getElementById('etc').value)) {
+            switch (document.getElementById('etc').value) {
+              case '1':
+              case '2':
+              case '3':
+              case document.querySelectorAll('.listNumber button')[document.querySelectorAll('.listNumber button').length - 1].innerHTML:
+                alert('ボタンで選択してください')
                 return (document.getElementById('etc').value = '')
-              }
-              break
+
+              default:
+                if (
+                  document.querySelectorAll('.listNumber button')[document.querySelectorAll('.listNumber button').length - 1].innerHTML >
+                    document.getElementById('etc').value &&
+                  1 < document.getElementById('etc').value
+                ) {
+                  pageEvent(document.getElementById('etc').value, null)
+                  document.getElementById('etc').value = ''
+                  const nowDisabled = document.querySelectorAll('[disabled]')
+                  for (let i = 0; i < nowDisabled.length; i++) {
+                    nowDisabled[0].disabled = false
+                  }
+                } else {
+                  alert('存在しないページです')
+                  return (document.getElementById('etc').value = '')
+                }
+                break
+            }
+          } else {
+            alert('数字を入力してください')
+            return (document.getElementById('etc').value = '')
           }
-        } else {
-          alert('数字を入力してください')
-          return (document.getElementById('etc').value = '')
         }
       }
-    }
-  })
+    })
+  }
 }
 function pageEvent(page, htmlElement) {
   if (htmlElement != null) {
@@ -208,6 +218,7 @@ function pageEvent(page, htmlElement) {
         const more = document.createElement('p')
         more.innerHTML = '続きを読む'
         more.className = 'more'
+        more.addEventListener('click', moreView(newsIndex.index[i].notificationId, newsIndex.index[i].categoryId))
         newsContent.append(description)
         newsContent.append(more)
       } else {
@@ -234,3 +245,5 @@ async function updateLastReadNewsTime() {
     lastReadNewsTime: lastReadNews,
   })
 }
+
+async function moreView(notificationId, categoryId) {}
